@@ -40,6 +40,8 @@ https://canva.link/r7vtl039z5al8z2
 
 **7. Link video demo**
 
+https://youtu.be/huZaUoZVVXg
+
 [Điền link video demo tại đây]
 
 **8. Link GitHub**
