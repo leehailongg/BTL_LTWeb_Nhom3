@@ -90,7 +90,7 @@ function hienThi(ds) {
                 <p class="gia">${dinhDangGia(sp.gia)}</p>
 
                 <div class="danhgia">
-                    <span class="sao" aria-label="${sp.sao} trên 5 sao">★★★★★</span>
+                    <span class="sao" aria-label="${sp.sao} trên 5 sao">${"★".repeat(Math.floor(sp.sao))}${"☆".repeat(5 - Math.floor(sp.sao))}</span>
                     <span class="diem">${sp.sao.toFixed(1)}</span>
                 </div>
 
@@ -124,9 +124,9 @@ function locSanPham() {
         const dungDanhMuc =
             danhMuc === "Tất cả" || sp.danhMuc === danhMuc;
 
-        const dungXepHang =
-            xepHang === 0 || sp.sao >= xepHang / 10;
-
+     const dungXepHang =
+    xepHang === 0 ||
+    (sp.sao >= xepHang / 10 && sp.sao < xepHang / 10 + 1);
         return dungTuKhoa && dungDanhMuc && dungXepHang;
     });
 
