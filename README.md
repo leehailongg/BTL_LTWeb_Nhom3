@@ -50,7 +50,7 @@ ReUseHub/
 7. Phạm vi thực hiện
 
 Phần công việc này tập trung vào giao diện đăng nhập và đăng ký của ReUseHub, được xây dựng bằng HTML, CSS và JavaScript.
-linkcanva: 
+linkcanva: https://canva.link/1a2gevkvz3qeyej
 
 linkyoutube: https://youtu.be/vm5dw_mDrvs?si=P20AyGqiB6omleqX
 
