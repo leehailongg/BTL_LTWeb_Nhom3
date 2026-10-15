@@ -1,0 +1,188 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #edf6ef;
+    color: #183d2c;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    min-height: 100vh;
+    padding: 40px;
+}
+
+.gioi-thieu {
+    width: 50%;
+    text-align: center;
+}
+
+.gioi-thieu h1 {
+    font-size: 48px;
+    color: #176343;
+}
+
+.gioi-thieu h3 {
+    color: #527762;
+}
+
+.gioi-thieu img {
+    width: 100%;
+    max-width: 550px;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 20px;
+    transition: transform 0.4s;
+}
+
+.gioi-thieu img:hover {
+    transform: scale(1.04);
+}
+
+.hop-dang-nhap {
+    width: 420px;
+    padding: 30px;
+    background: white;
+    border-radius: 22px;
+    box-shadow: 0 5px 25px #cbdccf;
+}
+
+.tab {
+    display: flex;
+    margin-bottom: 25px;
+}
+
+.tab button {
+    width: 50%;
+    padding: 12px;
+    border: none;
+    background: white;
+    color: #176343;
+    cursor: pointer;
+    border-bottom: 2px solid #ddd;
+}
+
+.tab button.active {
+    border-bottom: 2px solid #176343;
+    font-weight: bold;
+}
+
+h2 {
+    color: #202820;
+    font-size: 28px;
+}
+
+label {
+    display: block;
+    margin-top: 18px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #d5ded7;
+    border-radius: 8px;
+    outline: none;
+}
+
+input:focus {
+    border-color: #176343;
+}
+
+.quen {
+    text-align: right;
+    font-size: 13px;
+}
+
+a {
+    color: #176343;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.nut-chinh,
+.nut-google {
+    width: 100%;
+    padding: 13px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.nut-chinh {
+    border: none;
+    background: #176343;
+    color: white;
+    font-weight: bold;
+}
+
+.nut-chinh:hover {
+    background: #104a31;
+}
+
+.hoac {
+    margin: 22px 0;
+    text-align: center;
+    color: #888;
+}
+
+.nut-google {
+    border: 1px solid #ddd;
+    background: white;
+}
+
+.nut-google:hover {
+    background: #f2f7f3;
+}
+
+.cuoi {
+    margin-top: 25px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.an {
+    display: none;
+}
+
+#thongBao {
+    text-align: center;
+    color: #176343;
+    font-size: 14px;
+}
+
+@media (max-width: 800px) {
+    .container {
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .gioi-thieu {
+        width: 100%;
+    }
+
+    .gioi-thieu img {
+        height: 220px;
+    }
+
+    .gioi-thieu h1 {
+        font-size: 35px;
+    }
+
+    .hop-dang-nhap {
+        width: 100%;
+        max-width: 420px;
+    }
+}
