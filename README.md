@@ -41,4 +41,4 @@ ReUseHub – Nền tảng kết nối mua bán, sửa chữa và tái sử dụn
 
 - Link video: [Dán link Video demo tại đây]
 
-- **Link GitHub:** [Dán link GitHub repository tại đây]
+- Link GitHub: https://github.com/leehailongg/BTL_LTWeb_Nhom3/tree/CSE_L%C3%AA_H%E1%BA%A3i_Long_2551060646
