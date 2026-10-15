@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReUseHub - Đăng nhập</title>
+    <link rel="stylesheet" href="dangnhap.css">
+</head>
+<body>
+    <div class="container">
+        <div class="gioi-thieu">
+            <h1>🌿 ReUseHub</h1>
+            <h3>Trao vòng đời mới cho đồ dùng</h3>
+            <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=800&q=80" alt="Bảo vệ môi trường">
+        </div>
+
+        <div class="hop-dang-nhap">
+            <div class="tab">
+                <button id="tabDangNhap" class="active">Đăng nhập</button>
+                <button id="tabDangKy">Đăng ký</button>
+            </div>
+
+            <h2 id="tieuDe">Chào mừng trở lại</h2>
+
+            <form id="formDangNhap">
+                <label>Email hoặc số điện thoại</label>
+                <input type="text" id="email" placeholder="Nhập email hoặc số điện thoại" required>
+
+                <label>Mật khẩu</label>
+                <input type="password" id="matKhau" placeholder="Nhập mật khẩu" required>
+
+                <p class="quen"><a href="#" id="quenMatKhau">Quên mật khẩu?</a></p>
+
+                <button type="submit" class="nut-chinh">Đăng nhập</button>
+            </form>
+
+            <form id="formDangKy" class="an">
+                <label>Họ và tên</label>
+                <input type="text" id="hoTen" placeholder="Nhập họ và tên">
+
+                <label>Email</label>
+                <input type="email" id="emailMoi" placeholder="Nhập email">
+
+                <label>Mật khẩu</label>
+                <input type="password" id="matKhauMoi" placeholder="Tạo mật khẩu">
+
+                <button type="submit" class="nut-chinh">Đăng ký</button>
+            </form>
+
+            <div class="hoac">hoặc</div>
+
+            <button class="nut-google" id="google">🌐 Đăng nhập với Google</button>
+
+            <p class="cuoi" id="loiMoi">
+                Chưa có tài khoản? <a href="#" id="chuyenDangKy">Đăng ký</a>
+            </p>
+
+            <p id="thongBao"></p>
+        </div>
+    </div>
+
+    <script src="dangnhap.js"></script>
+</body>
+</html>
+```
