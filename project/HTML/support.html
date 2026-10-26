@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trợ lý AI ReUseHub - Trung tâm Trí tuệ Nhân tạo Tuần hoàn</title>
+
+  <!-- Phông chữ Inter hiện đại -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- File CSS duy nhất theo yêu cầu -->
+  <link rel="stylesheet" href="support.css">
+</head>
+<body>
+
+  <!-- ======================================================================
+       1. THANH ĐIỀU HƯỚNG ĐẦU TRANG (Header Navigation Bar)
+       ====================================================================== -->
+  <header class="header">
+    <div class="header-container">
+      
+      <!-- Phía bên trái: Logo, ô tìm kiếm và Trang chủ -->
+      <div class="header-left">
+        <!-- Logo thương hiệu ReUseHub -->
+        <a href="index.html" class="logo" title="Về trang chủ ReUseHub">
+          <svg class="brand-logo" viewBox="0 0 32 32" aria-hidden="true" width="28" height="28">
+            <circle cx="16" cy="16" r="15" fill="#176548"/>
+            <path d="M5 17 C10 8 17 7 23 8
+                     C20 11 17 14 15 16
+                     C20 16 24 13 27 11
+                     C26 20 18 28 11 25
+                     C7 24 5 21 5 18 Z"
+                  fill="white"/>
+          </svg>
+          <span class="logo-text">ReuseHub</span>
+        </a>
+
+        <!-- Ô tìm kiếm sản phẩm -->
+        <div class="header-search">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="headerSearchInput" placeholder="Tìm kiếm sản phẩm...">
+        </div>
+
+        <!-- Mục Trang chủ -->
+        <a href="index.html" class="nav-link">
+          <span class="nav-icon">🏠</span>
+          <span>Trang chủ</span>
+        </a>
+      </div>
+
+      <!-- Phía bên phải: Hồ sơ và Vai trò -->
+      <div class="header-right">
+        <!-- Mục Hồ sơ -->
+        <a href="profile.html" class="nav-link">
+          <span class="nav-icon">👤</span>
+          <span>Hồ sơ</span>
+        </a>
+
+        <!-- Dropdown Vai trò -->
+        <div class="dropdown">
+          <button type="button" class="dropdown-btn" id="roleBtn" aria-expanded="false">
+            Vai trò ▾
+          </button>
+          <div class="dropdown-menu" id="roleMenu">
+            <a href="index.html">🛍️ Người mua</a>
+            <a href="seller.html">🏪 Người bán</a>
+            <a href="repairer.html">🔧 Người sửa chữa</a>
+            <a href="admin.html">⚙️ Quản trị viên</a>
+            <a href="support.html" class="active-role">🤖 Trợ lý AI (Hiện tại)</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ======================================================================
+       2. THANH CHUYỂN ĐỔI CÁC MÀN HÌNH TÍCH HỢP 3 CON AI
+       ====================================================================== -->
+  <div class="ai-navigation-wrapper">
+    <div class="ai-nav-container">
+      <div class="ai-tabs" role="tablist">
+        <button type="button" class="ai-tab-btn active" data-target="viewChat" role="tab" id="tabChat" aria-selected="true">
+          <span class="tab-icon">💬</span>
+          <span class="tab-text">Trợ lý Hội thoại</span>
+        </button>
+        <button type="button" class="ai-tab-btn" data-target="viewCircularity" role="tab" id="tabCircularity" aria-selected="false">
+          <span class="tab-icon">🤖</span>
+          <span class="tab-text">AI-1: Gợi ý Tuần hoàn</span>
+        </button>
+        <button type="button" class="ai-tab-btn" data-target="viewDescription" role="tab" id="tabDescription" aria-selected="false">
+          <span class="tab-icon">✨</span>
+          <span class="tab-text">AI-2: Viết mô tả Tin đăng</span>
+        </button>
+        <button type="button" class="ai-tab-btn" data-target="viewMatcher" role="tab" id="tabMatcher" aria-selected="false">
+          <span class="tab-icon">🎯</span>
+          <span class="tab-text">AI-3: Ghép nối Nhu cầu</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       3. KHUNG NỘI DUNG CHÍNH (CÁC MÀN HÌNH)
+       ====================================================================== -->
+  <main class="main-container">
+
+    <!-- ====================================================================
+         MÀN HÌNH 1: TRỢ LÝ HỘI THOẠI AI (Giao diện chuẩn theo PDF)
+         ==================================================================== -->
+    <section id="viewChat" class="ai-view active">
+      <div class="chat-card">
+
+        <!-- TIÊU ĐỀ CARD (Xanh lá đậm ReUseHub) -->
+        <div class="chat-header">
+          <div class="bot-avatar-header">
+            <svg width="42" height="42" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="40" height="40" rx="10" fill="#ffffff" fill-opacity="0.15"/>
+              <rect x="2" y="2" width="36" height="36" rx="8" fill="#1b2533"/>
+              <path d="M20 7V10" stroke="#a78bfa" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="20" cy="6" r="2" fill="#c084fc"/>
+              <rect x="9" y="10" width="22" height="18" rx="5" fill="#312e81" stroke="#818cf8" stroke-width="1.5"/>
+              <ellipse cx="15" cy="19" rx="2.5" ry="3.5" fill="#a855f7"/>
+              <ellipse cx="25" cy="19" rx="2.5" ry="3.5" fill="#a855f7"/>
+              <circle cx="15.8" cy="18" r="0.8" fill="#ffffff"/>
+              <circle cx="25.8" cy="18" r="0.8" fill="#ffffff"/>
+              <path d="M17 24C18.5 25.5 21.5 25.5 23 24" stroke="#e0e7ff" stroke-width="1.5" stroke-linecap="round"/>
+              <rect x="6" y="15" width="2" height="6" rx="1" fill="#818cf8"/>
+              <rect x="32" y="15" width="2" height="6" rx="1" fill="#818cf8"/>
+            </svg>
+          </div>
+          <div class="chat-header-info">
+            <h1 class="chat-title">Trợ lý AI ReUseHub</h1>
+            <div class="chat-subtitle">
+              <span class="online-indicator"></span>
+              <span>Trợ lý hỗ trợ khách hàng</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- NỘI DUNG VÙNG CHAT -->
+        <div class="chat-body">
+
+          <!-- Lời chào mở đầu -->
+          <div class="welcome-section">
+            <h2 class="welcome-heading">Xin chào!</h2>
+            <p class="welcome-text">Mình là trợ lý hỗ trợ khách hàng của ReUseHub. Bạn cần giúp đỡ về vấn đề gì?</p>
+          </div>
+
+          <!-- 4 Nút câu hỏi gợi ý chức năng -->
+          <div class="suggestions-container" aria-label="Câu hỏi gợi ý">
+            <button type="button" class="suggestion-btn" data-question="Cách mua sản phẩm">
+              <span class="btn-icon">🛒</span>
+              <span>Cách mua sản phẩm</span>
+            </button>
+            <button type="button" class="suggestion-btn" data-question="Cách đăng bán">
+              <span class="btn-icon">📦</span>
+              <span>Cách đăng bán</span>
+            </button>
+            <button type="button" class="suggestion-btn" data-question="Theo dõi đơn hàng">
+              <span class="btn-icon">🚚</span>
+              <span>Theo dõi đơn hàng</span>
+            </button>
+            <button type="button" class="suggestion-btn" data-question="Dịch vụ sửa chữa">
+              <span class="btn-icon">🔧</span>
+              <span>Dịch vụ sửa chữa</span>
+            </button>
+          </div>
+
+          <!-- Đường kẻ phân cách -->
+          <div class="chat-divider"></div>
+
+          <!-- Khung chứa tin nhắn trò chuyện -->
+          <div class="chat-messages" id="chatMessages" aria-live="polite"></div>
+
+          <!-- Khu vực nhập câu hỏi -->
+          <form class="chat-input-form" id="chatForm">
+            <div class="chat-input-wrapper">
+              <input 
+                type="text" 
+                id="chatInput" 
+                class="chat-input" 
+                placeholder="Nhập câu hỏi của bạn..." 
+                autocomplete="off"
+                aria-label="Nhập câu hỏi cho trợ lý AI"
+              >
+              <button type="submit" id="sendBtn" class="send-btn" aria-label="Gửi câu hỏi">
+                <span>Gửi</span>
+                <span class="send-icon" aria-hidden="true">➤</span>
+              </button>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ====================================================================
+         MÀN HÌNH 2: 🤖 AI-1: CIRCULARITY ADVISOR (GỢI Ý PHƯƠNG ÁN TUẦN HOÀN)
+         ==================================================================== -->
+    <section id="viewCircularity" class="ai-view">
+      <div class="tool-card">
+        
+        <!-- Header công cụ AI-1 -->
+        <div class="tool-header">
+          <div class="tool-header-badge">AI-1: Phân tích & Ra quyết định bền vững</div>
+          <h2 class="tool-title">🤖 Circularity Advisor - Trợ lý gợi ý phương án tuần hoàn</h2>
+          <p class="tool-desc">
+            Phân tích tên món đồ và mức độ hỏng hóc để tự động đề xuất phương án xử lý tối ưu nhất 
+            (<strong>Cho tặng trực tiếp</strong>, <strong>Sửa chữa qua đối tác</strong>, hoặc <strong>Thu gom tái chế nguyên liệu</strong>) kèm lý giải minh bạch.
+          </p>
+        </div>
+
+        <div class="tool-body">
+          <form id="formCircularity" class="tool-form">
+            <div class="form-grid-2">
+              
+              <!-- Tên món đồ -->
+              <div class="form-group">
+                <label for="circItemName" class="form-label">
+                  Tên món đồ <span class="required">*</span>
+                </label>
+                <input 
+                  type="text" 
+                  id="circItemName" 
+                  class="form-control" 
+                  placeholder="Ví dụ: Bàn học gỗ ép, Nồi cơm điện Sharp, Áo khoác dạ, Quạt đứng..." 
+                  required
+                >
+                <span class="form-hint">Nhập tên chính xác của món đồ để AI nhận diện chủng loại và vật liệu cấu thành.</span>
+              </div>
+
+              <!-- Danh mục sản phẩm -->
+              <div class="form-group">
+                <label for="circCategory" class="form-label">Danh mục món đồ</label>
+                <select id="circCategory" class="form-control">
+                  <option value="Nội thất">Nội thất (Bàn, ghế, tủ, kệ...)</option>
+                  <option value="Điện gia dụng">Điện gia dụng (Nồi cơm, quạt, bàn ủi, ấm siêu tốc...)</option>
+                  <option value="Điện tử">Điện tử (Laptop, tai nghe, màn hình, loa...)</option>
+                  <option value="Thời trang & Đồ dùng">Thời trang & Đồ dùng cá nhân (Quần áo, balo, giày dép...)</option>
+                  <option value="Đồ dùng học tập & Sách">Sách vở & Đồ dùng học tập</option>
+                  <option value="Khác">Vật dụng khác</option>
+                </select>
+              </div>
+
+            </div>
+
+            <!-- Mức độ hỏng hóc -->
+            <div class="form-group">
+              <label class="form-label">
+                Mức độ hỏng hóc / Tình trạng hiện tại <span class="required">*</span>
+              </label>
+              
+              <div class="damage-options">
+                <label class="damage-card">
+                  <input type="radio" name="damageLevel" value="good" checked>
+                  <div class="damage-content">
+                    <span class="damage-badge badge-green">Mới 90% - 98%</span>
+                    <strong>Còn hoạt động hoàn hảo</strong>
+                    <p>Chỉ trầy xước nhẹ ngoại quan, cấu trúc và chức năng nguyên vẹn.</p>
+                  </div>
+                </label>
+
+                <label class="damage-card">
+                  <input type="radio" name="damageLevel" value="light">
+                  <div class="damage-content">
+                    <span class="damage-badge badge-blue">Hỏng hóc nhẹ (70% - 85%)</span>
+                    <strong>Hỏng linh kiện / cần sửa sơ</strong>
+                    <p>Đứt dây, lỏng đinh ốc, kẹt nút, bề mặt bong tróc, có thể sửa nhanh.</p>
+                  </div>
+                </label>
+
+                <label class="damage-card">
+                  <input type="radio" name="damageLevel" value="heavy">
+                  <div class="damage-content">
+                    <span class="damage-badge badge-orange">Hỏng nặng (40% - 60%)</span>
+                    <strong>Hỏng linh kiện chính</strong>
+                    <p>Không hoạt động, hỏng bo mạch, gãy kết cấu chịu lực, chi phí sửa cao.</p>
+                  </div>
+                </label>
+
+                <label class="damage-card">
+                  <input type="radio" name="damageLevel" value="broken">
+                  <div class="damage-content">
+                    <span class="damage-badge badge-red">Hỏng hoàn toàn (&lt; 40%)</span>
+                    <strong>Vỡ vụn / Rách nát phế liệu</strong>
+                    <p>Không còn khả năng phục hồi an toàn, các linh kiện hư hại nghiêm trọng.</p>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- Mô tả chi tiết thêm -->
+            <div class="form-group">
+              <label for="circDetails" class="form-label">Mô tả cụ thể hư hỏng (tùy chọn)</label>
+              <textarea 
+                id="circDetails" 
+                class="form-control" 
+                rows="3" 
+                placeholder="Ví dụ: Cắm điện quạt vẫn rung nhưng cánh không quay; hoặc Chân ghế gỗ bên trái bị lung lay..."
+              ></textarea>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" id="btnAnalyzeCircularity" class="btn btn-primary btn-large">
+                <span class="btn-icon">🤖</span>
+                <span>Phân tích phương án tuần hoàn tối ưu</span>
+              </button>
+            </div>
+          </form>
+
+          <!-- KHUNG KẾT QUẢ PHÂN TÍCH AI-1 (Ẩn ban đầu, hiển thị sau khi submit) -->
+          <div id="circResult" class="tool-result-box" style="display: none;">
+            <!-- Render kết quả động từ JavaScript -->
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ====================================================================
+         MÀN HÌNH 3: ✨ AI-2: ITEM DESCRIPTION AI (SINH MÔ TẢ TIN ĐĂNG TỰ ĐỘNG)
+         ==================================================================== -->
+    <section id="viewDescription" class="ai-view">
+      <div class="tool-card">
+        
+        <!-- Header công cụ AI-2 -->
+        <div class="tool-header">
+          <div class="tool-header-badge">AI-2: Tạo nội dung bài đăng thông minh</div>
+          <h2 class="tool-title">✨ Item Description AI - Sinh mô tả tin đăng tự động</h2>
+          <p class="tool-desc">
+            Nhập nhanh các từ khóa thô (kích thước, màu sắc, tình trạng, lý do thanh lý...). 
+            AI sẽ tự động biên soạn thành bài đăng hoàn chỉnh, lời văn lịch sự, thu hút và đầy đủ thông số.
+          </p>
+        </div>
+
+        <div class="tool-body">
+          <form id="formDescription" class="tool-form">
+            <div class="form-grid-2">
+              
+              <!-- Tên món đồ -->
+              <div class="form-group">
+                <label for="descItemName" class="form-label">
+                  Tên món đồ <span class="required">*</span>
+                </label>
+                <input 
+                  type="text" 
+                  id="descItemName" 
+                  class="form-control" 
+                  placeholder="Ví dụ: Áo khoác dạ nam, Bàn học sinh viên gấp gọn..." 
+                  required
+                >
+              </div>
+
+              <!-- Mục đích tin đăng -->
+              <div class="form-group">
+                <label for="descListingType" class="form-label">Hình thức tin đăng</label>
+                <select id="descListingType" class="form-control">
+                  <option value="giveaway">🎁 Cho tặng miễn phí (0đ chia sẻ cộng đồng)</option>
+                  <option value="resell" selected>🏪 Thanh lý đồ cũ giá tốt</option>
+                  <option value="exchange">🔄 Trao đổi đồ dùng</option>
+                </select>
+              </div>
+
+            </div>
+
+            <!-- Ô nhập từ khóa thô -->
+            <div class="form-group">
+              <label for="descKeywords" class="form-label">
+                Từ khóa thô (Thông tin thực tế của món đồ) <span class="required">*</span>
+              </label>
+              <textarea 
+                id="descKeywords" 
+                class="form-control" 
+                rows="4" 
+                placeholder="Nhập tự do các đặc điểm, ví dụ: size L, màu be sáng, chất vải kaki 2 lớp, mới 95%, mặc đúng 2 lần dịp Tết, pass lại 180k, tặng kèm móc áo, nhận ship tại Hà Nội..."
+                required
+              ></textarea>
+              
+              <!-- Gợi ý từ khóa nhanh -->
+              <div class="quick-keywords-box">
+                <span class="quick-title">Bấm để thêm nhanh:</span>
+                <button type="button" class="keyword-chip" data-kw="mới 95% ít dùng">+ Mới 95%</button>
+                <button type="button" class="keyword-chip" data-kw="màu be / trung tính">+ Màu be</button>
+                <button type="button" class="keyword-chip" data-kw="full phụ kiện đi kèm">+ Đầy đủ phụ kiện</button>
+                <button type="button" class="keyword-chip" data-kw="đang dùng rất tốt">+ Dùng rất tốt</button>
+                <button type="button" class="keyword-chip" data-kw="dành cho sinh viên">+ Ưu tiên sinh viên</button>
+                <button type="button" class="keyword-chip" data-kw="hỗ trợ ship nhanh">+ Hỗ trợ ship</button>
+              </div>
+            </div>
+
+            <div class="form-grid-2">
+              <!-- Văn phong AI -->
+              <div class="form-group">
+                <label for="descTone" class="form-label">Văn phong mong muốn</label>
+                <select id="descTone" class="form-control">
+                  <option value="friendly" selected>🌿 Thân thiện, lịch sự và thu hút (Chuẩn ReUseHub)</option>
+                  <option value="warm">🎁 Chân thành, ấm áp (Rất hợp cho đồ cho tặng 0đ)</option>
+                  <option value="concise">⚡ Ngắn gọn, chuyên nghiệp, tập trung thông số</option>
+                </select>
+              </div>
+
+              <!-- Mức giá dự kiến (nếu bán) -->
+              <div class="form-group">
+                <label for="descPrice" class="form-label">Mức giá đề xuất (hoặc 0đ nếu tặng)</label>
+                <input 
+                  type="text" 
+                  id="descPrice" 
+                  class="form-control" 
+                  placeholder="Ví dụ: 150.000đ hoặc 0đ"
+                >
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" id="btnGenerateDesc" class="btn btn-primary btn-large">
+                <span class="btn-icon">✨</span>
+                <span>AI Sinh mô tả bài đăng chuyên nghiệp</span>
+              </button>
+            </div>
+          </form>
+
+          <!-- KHUNG KẾT QUẢ AI-2 -->
+          <div id="descResult" class="tool-result-box" style="display: none;">
+            <div class="result-header-bar">
+              <h3 class="result-title">Bài đăng đã được AI biên soạn hoàn tất:</h3>
+              <button type="button" id="btnCopyDesc" class="btn btn-secondary btn-sm">
+                <span>📋 Sao chép mô tả</span>
+              </button>
+            </div>
+
+            <div class="desc-preview-card">
+              <div class="desc-preview-title" id="previewTitle"></div>
+              <textarea id="previewContent" class="desc-preview-content" rows="10" spellcheck="false"></textarea>
+            </div>
+
+            <div class="copy-toast" id="copyToast">✅ Đã sao chép nội dung bài đăng vào bộ nhớ tạm!</div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ====================================================================
+         MÀN HÌNH 4: 🎯 AI-3: RECEIVER MATCHER (ĐỀ XUẤT GHÉP NỐI NHU CẦU)
+         ==================================================================== -->
+    <section id="viewMatcher" class="ai-view">
+      <div class="tool-card">
+        
+        <!-- Header công cụ AI-3 -->
+        <div class="tool-header">
+          <div class="tool-header-badge">AI-3: Đề xuất ghép nối nhu cầu thông minh</div>
+          <h2 class="tool-title">🎯 Receiver Matcher - Đề xuất ghép nối nhu cầu</h2>
+          <p class="tool-desc">
+            Đánh giá độ phù hợp giữa nhu cầu của bạn với danh sách các món đồ hiện có trên hệ thống ReUseHub, 
+            tự động chấm điểm <strong>% Tương thích</strong> và đưa các món đồ ưu tiên nhất lên đầu!
+          </p>
+        </div>
+
+        <div class="tool-body">
+          <form id="formMatcher" class="tool-form">
+            <div class="form-group">
+              <label for="matcherQuery" class="form-label">
+                Nhập nhu cầu của bạn <span class="required">*</span>
+              </label>
+              <div class="search-matcher-wrapper">
+                <input 
+                  type="text" 
+                  id="matcherQuery" 
+                  class="form-control search-matcher-input" 
+                  placeholder="Ví dụ: Cần bàn học gỗ cho sinh viên giá rẻ dưới 500k, hoặc Quạt gia dụng còn dùng tốt, Áo ấm mùa đông..." 
+                  required
+                >
+                <button type="submit" id="btnMatch" class="btn btn-primary">
+                  <span class="btn-icon">🎯</span>
+                  <span>Ghép nối ngay</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Các thẻ nhu cầu mẫu bấm vào chọn ngay -->
+            <div class="matcher-preset-tags">
+              <span class="preset-label">Nhu cầu phổ biến:</span>
+              <button type="button" class="preset-tag" data-query="bàn học gỗ sinh viên giá rẻ">🎓 Bàn học sinh viên</button>
+              <button type="button" class="preset-tag" data-query="quạt điện gia dụng còn tốt">🌀 Quạt điện gia dụng</button>
+              <button type="button" class="preset-tag" data-query="nồi cơm điện dùng tốt giá tiết kiệm">🍳 Nồi cơm điện</button>
+              <button type="button" class="preset-tag" data-query="áo khoác ấm mùa đông cho tặng">🧥 Áo ấm mùa đông</button>
+              <button type="button" class="preset-tag" data-query="ghế văn phòng ngồi làm việc">💺 Ghế văn phòng</button>
+              <button type="button" class="preset-tag" data-query="đồ cho tặng 0 đồng miễn phí">🎁 Đồ cho tặng 0đ</button>
+            </div>
+          </form>
+
+          <!-- KHUNG HIỂN THỊ KẾT QUẢ GHÉP NỐI AI-3 -->
+          <div id="matcherResult" class="matcher-result-area">
+            <div class="matcher-summary-bar">
+              <span id="matcherCount">Tìm thấy 6 món đồ phù hợp</span>
+              <span class="matcher-sort-badge">⚡ Sắp xếp theo: % Tương thích giảm dần</span>
+            </div>
+
+            <!-- Lưới danh sách sản phẩm được ghép nối -->
+            <div class="matcher-grid" id="matcherGrid">
+              <!-- Render động bằng JavaScript -->
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- File JavaScript duy nhất theo yêu cầu -->
+  <script src="support.js"></script>
+</body>
+</html>
