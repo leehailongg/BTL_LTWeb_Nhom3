@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReuseHub - Sàn Thương Mại Điện Tử Đồ Cũ</title>
+  <link rel="stylesheet" href="home-page.css">
+</head>
+<body>
+
+  <!-- ================= HEADER CHUNG ================= -->
+  <header class="header">
+    <div class="header-container">
+      <a href="#" class="logo" onclick="showView('home'); return false;">
+        <span class="logo-icon">♻</span>
+        <span class="logo-text">ReuseHub</span>
+      </a>
+
+      <div class="header-search">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="Tìm kiếm sản phẩm..." oninput="handleSearch()">
+      </div>
+
+      <nav class="nav-menu">
+        <a href="#" class="nav-link active" id="nav-home" onclick="showView('home'); return false;">
+          <span>🏠</span> Trang chủ
+        </a>
+        <a href="#" class="nav-link" id="nav-cart" onclick="showView('cart'); return false;">
+          <span>🛒</span> Giỏ hàng <span class="badge" id="cartCount">0</span>
+        </a>
+        <a href="#" class="nav-link" id="nav-tracking" onclick="showView('tracking'); return false;">
+          Theo dõi đơn hàng
+        </a>
+        <a href="repair.html" class="nav-link" id="nav-repair">
+          🔧 Sửa chữa
+        </a>
+
+        <div class="dropdown">
+          <button class="dropdown-btn" onclick="toggleRoleDropdown()">Vai trò ▾</button>
+          <div class="dropdown-menu" id="roleMenu">
+            <a href="index.html" style="font-weight: 600; color: #0d5c46;">🛍️ Người mua (Hiện tại)</a>
+            <a href="seller.html">🏪 Người bán</a>
+            <a href="repairer.html">🔧 Người sửa chữa</a>
+            <a href="admin.html">⚙️ Quản trị viên</a>
+          </div>
+        </div>
+
+        <a href="profile.html" class="nav-link" id="nav-profile">Hồ sơ</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ================= NỘI DUNG CHÍNH (SPA CÁC TRANG) ================= -->
+  <main class="main-container">
+
+    <!-- TRANG 1: TRANG CHỦ -->
+    <section id="view-home" class="page-view active">
+      <div class="hero-section">
+        <h1>Khám phá sản phẩm đang được bán</h1>
+        <p>Đồ dùng đã qua sử dụng, được chọn lọc để trao thêm vòng đời mới.</p>
+        <div class="category-filters">
+          <button class="filter-btn active" onclick="filterCategory('Tất cả', this)">Tất cả</button>
+          <button class="filter-btn" onclick="filterCategory('Nội thất', this)">Nội thất</button>
+          <button class="filter-btn" onclick="filterCategory('Gia dụng', this)">Gia dụng</button>
+          <button class="filter-btn" onclick="filterCategory('Điện tử', this)">Điện tử</button>
+          <button class="filter-btn" onclick="filterCategory('Phụ kiện', this)">Phụ kiện</button>
+          <button class="filter-btn" onclick="filterCategory('Giá tốt hôm nay', this)">Giá tốt hôm nay</button>
+        </div>
+      </div>
+      <div class="product-grid" id="productList">
+        <!-- Render bằng JavaScript -->
+      </div>
+    </section>
+
+    <!-- TRANG 2: CHI TIẾT SẢN PHẨM -->
+    <section id="view-detail" class="page-view">
+      <div class="breadcrumb">
+        <a href="#" onclick="showView('home'); return false;">Chi tiết sản phẩm</a>
+      </div>
+      <div class="detail-container">
+        <div class="detail-image-box">
+          <img id="detailImg" src="" alt="Ảnh sản phẩm">
+        </div>
+        <div class="detail-info">
+          <h1 id="detailTitle">Bàn học gỗ tự nhiên</h1>
+          <p class="detail-sub" id="detailCategory">Nội thất · Đã qua sử dụng</p>
+          <div class="detail-price" id="detailPrice">450.000đ</div>
+          <div class="stock-status">Còn hàng</div>
+          <div class="detail-rating-sales">
+            <span class="rating-star">★</span>
+            <span id="detailRating">4.9/5</span>
+            <span class="rating-sub">128 đánh giá · 316 lượt bán</span>
+          </div>
+          <div class="detail-desc-box">
+            <h3>Mô tả</h3>
+            <p id="detailDesc">Thiết kế tối giản, bền đẹp, phù hợp góc học tập và làm việc.</p>
+          </div>
+          <div class="detail-actions">
+            <button class="btn btn-outline" onclick="addToCartCurrentProduct()">Thêm vào giỏ hàng</button>
+            <button class="btn btn-primary" onclick="buyNowCurrentProduct()">Mua ngay</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-stats-section">
+        <h2>Đánh giá sản phẩm</h2>
+        <div class="review-summary-row">
+          <div class="score-box">
+            <div class="score-num">4.9 <small>trên 5</small></div>
+            <div class="stars-gold">★★★★★</div>
+            <div class="score-sub">128 lượt đánh giá</div>
+          </div>
+          <div class="rating-bars">
+            <div class="bar-row"><span>5 ★</span><div class="bar"><div class="fill" style="width: 92%;"></div></div><span>92%</span></div>
+            <div class="bar-row"><span>4 ★</span><div class="bar"><div class="fill" style="width: 6%;"></div></div><span>6%</span></div>
+            <div class="bar-row"><span>3 ★</span><div class="bar"><div class="fill" style="width: 2%;"></div></div><span>2%</span></div>
+            <div class="bar-row"><span>2 ★</span><div class="bar"><div class="fill" style="width: 0%;"></div></div><span>0%</span></div>
+            <div class="bar-row"><span>1 ★</span><div class="bar"><div class="fill" style="width: 0%;"></div></div><span>0%</span></div>
+          </div>
+        </div>
+        <div class="comment-list">
+          <div class="comment-item">
+            <div class="comment-header">
+              <strong>Nguyễn Minh Anh</strong>
+              <span class="comment-date">20/05/2024</span>
+            </div>
+            <div class="stars-gold">★★★★★</div>
+            <p>Bàn chắc chắn, màu gỗ đẹp và đóng gói rất cẩn thận.</p>
+          </div>
+          <div class="comment-item">
+            <div class="comment-header">
+              <strong>Trần Hoàng</strong>
+              <span class="comment-date">18/05/2024</span>
+            </div>
+            <div class="stars-gold">★★★★★</div>
+            <p>Giao hàng nhanh, đồ cũ mà giữ gìn rất tốt, giá cả hợp lý.</p>
+          </div>
+        </div>
+        <button class="btn btn-sm btn-outline mt-15" onclick="alert('Đã hiển thị toàn bộ 128 đánh giá')">Xem tất cả đánh giá</button>
+      </div>
+    </section>
+
+    <!-- TRANG 3: GIỎ HÀNG -->
+    <section id="view-cart" class="page-view">
+      <div class="page-title-row">
+        <h1>Giỏ hàng <span class="sub-count" id="cartItemCountText">(0 sản phẩm)</span></h1>
+      </div>
+      <div class="cart-layout">
+        <div class="cart-left">
+          <div class="cart-header-row">
+            <div class="col-chk"><input type="checkbox" id="selectAllCart" checked onchange="toggleSelectAllCart(this)"> Sản phẩm</div>
+            <div class="col-price">Đơn giá</div>
+            <div class="col-qty">Số lượng</div>
+            <div class="col-total">Thành tiền</div>
+          </div>
+          <div id="cartItemsList"><!-- Render bằng JavaScript --></div>
+        </div>
+        <div class="cart-right">
+          <div class="summary-card">
+            <h3>Tóm tắt đơn hàng</h3>
+            <div class="summary-row">
+              <span id="cartSummaryItems">Tạm tính (0 sản phẩm)</span>
+              <strong id="cartSubtotalText">0đ</strong>
+            </div>
+            <div class="summary-row" id="cartDiscountRow" style="display: none; color: #dc2626;">
+              <span>Voucher (<span id="cartVoucherCode"></span>)</span>
+              <strong id="cartDiscountText">-0đ</strong>
+            </div>
+            <div class="summary-row">
+              <span>Phí vận chuyển</span>
+              <strong class="text-green" id="cartShippingText">Miễn phí</strong>
+            </div>
+            <hr>
+            <div class="summary-row total-row">
+              <span>Tổng cộng</span>
+              <strong class="total-price" id="cartTotalText">0đ</strong>
+            </div>
+            <div class="voucher-box" onclick="openVoucherModal()">
+              <span id="cartVoucherLabel">🏷 Chọn hoặc nhập mã voucher</span>
+              <span class="link-arrow">Chọn ›</span>
+            </div>
+            <button class="btn btn-primary btn-block" onclick="goToCheckout()">Mua Hàng</button>
+            <p class="summary-note">Bạn có thể kiểm tra lại sản phẩm trước khi thanh toán</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRANG 4: THÔNG TIN NGƯỜI NHẬN & ĐẶT HÀNG -->
+    <section id="view-checkout" class="page-view">
+      <div class="page-title-row"><h1>Thông tin người nhận</h1></div>
+      <div class="checkout-layout">
+        <div class="checkout-left">
+          <div class="address-box">
+            <div class="address-header">
+              <span>Địa chỉ nhận hàng <span class="badge badge-default">Mặc định</span></span>
+              <button class="btn-link" onclick="focusAddressForm()">Thay đổi</button>
+            </div>
+            <p><strong>Nguyễn Minh Anh</strong> · 090 123 4567</p>
+            <p class="address-text">128 Nguyễn Trãi, Phường Bến Thành, Quận 1, TP. Hồ Chí Minh</p>
+          </div>
+          <div class="form-section">
+            <h3>Thông tin liên hệ</h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Họ và tên</label>
+                <input type="text" id="orderName" value="Nguyễn Minh Anh">
+              </div>
+              <div class="form-group">
+                <label>Số điện thoại</label>
+                <input type="text" id="orderPhone" value="090 123 4567">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Tỉnh / Thành phố</label>
+                <select id="orderCity">
+                  <option selected>TP. Hồ Chí Minh</option>
+                  <option>Hà Nội</option>
+                  <option>Đà Nẵng</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Quận / Huyện</label>
+                <select id="orderDistrict">
+                  <option selected>Quận 1</option>
+                  <option>Quận 3</option>
+                  <option>Bình Thạnh</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Phường / Xã</label>
+                <select id="orderWard">
+                  <option selected>Phường Bến Thành</option>
+                  <option>Phường Cầu Kho</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Địa chỉ chi tiết</label>
+              <input type="text" id="orderAddress" value="128 Nguyễn Trãi">
+            </div>
+          </div>
+          <div class="shipping-section">
+            <h3>Phương thức giao hàng</h3>
+            <div class="shipping-card selected">
+              <div>
+                <strong>✔ Giao hàng tiêu chuẩn</strong>
+                <p>Nhận hàng trong 2–4 ngày</p>
+              </div>
+              <span class="text-green font-bold">Miễn phí</span>
+            </div>
+          </div>
+          <div class="form-group mt-15">
+            <label>Ghi chú cho người bán</label>
+            <input type="text" id="orderNote" placeholder="Ví dụ: Gọi trước khi giao hàng">
+          </div>
+        </div>
+
+        <div class="checkout-right">
+          <div class="summary-card">
+            <h3>Tóm tắt đơn hàng</h3>
+            <p class="text-muted" id="checkoutQtyText">0 sản phẩm</p>
+            <div class="summary-row"><span>Tạm tính</span><strong id="checkoutSubtotalText">0đ</strong></div>
+            <div class="summary-row" id="checkoutDiscountRow" style="display: none; color: #dc2626;">
+              <span>Voucher (<span id="checkoutVoucherCode"></span>)</span>
+              <strong id="checkoutDiscountText">-0đ</strong>
+            </div>
+            <div class="summary-row"><span>Phí vận chuyển</span><strong class="text-green">Miễn phí</strong></div>
+            <hr>
+            <div class="summary-row total-row"><span>Tổng cộng</span><strong class="total-price" id="checkoutTotalText">0đ</strong></div>
+            <p class="safe-pay-badge">🔒 Thanh toán an toàn · Bảo vệ người mua</p>
+            <div class="voucher-box" onclick="openVoucherModal()">
+              <span id="checkoutVoucherLabel">🏷 Chọn hoặc nhập mã voucher</span>
+              <span class="link-arrow">Chọn ›</span>
+            </div>
+            <button class="btn btn-primary btn-block" onclick="placeOrder()">Đặt hàng</button>
+            <p class="summary-note">Bằng việc đặt hàng, bạn đồng ý với điều khoản mua hàng</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRANG 5: THEO DÕI ĐƠN HÀNG -->
+    <section id="view-tracking" class="page-view">
+      <div class="tracking-header-row">
+        <div>
+          <h1>Theo dõi đơn hàng</h1>
+          <p class="text-muted">Quản lý và cập nhật trạng thái các đơn hàng của bạn</p>
+        </div>
+        <div class="tracking-search-box">
+          <input type="text" id="trackingCodeInput" placeholder="Nhập mã đơn (VD: RH001)...">
+          <button class="btn btn-primary" onclick="searchTrackingCode()">Tìm kiếm</button>
+        </div>
+      </div>
+      <div id="trackingContainer"><!-- Render bằng JavaScript --></div>
+    </section>
+
+    <!-- TRANG 6: ĐÁNH GIÁ ĐƠN HÀNG -->
+    <section id="view-review" class="page-view">
+      <div class="success-banner">
+        <div class="success-icon">✔</div>
+        <div>
+          <h3>Đơn hàng đã giao thành công</h3>
+          <p>Cảm ơn bạn đã tin tưởng và mua sắm cùng ReuseHub.</p>
+        </div>
+        <div class="order-code-badge" id="reviewOrderBadge">Đơn hàng #RH001 · Đã giao</div>
+      </div>
+      <div class="review-layout">
+        <div class="review-form-card">
+          <h2>Đánh giá đơn hàng</h2>
+          <p class="text-muted">Chia sẻ cảm nhận của bạn để giúp cộng đồng ReuseHub mua sắm tốt hơn</p>
+          <div id="reviewProductBox"><!-- Render bằng JavaScript --></div>
+          <div class="rating-input-box">
+            <label>Mức độ hài lòng của bạn</label>
+            <div class="star-rating" id="starContainer">
+              <span class="star" onclick="setRating(1)">★</span>
+              <span class="star" onclick="setRating(2)">★</span>
+              <span class="star" onclick="setRating(3)">★</span>
+              <span class="star" onclick="setRating(4)">★</span>
+              <span class="star" onclick="setRating(5)">★</span>
+            </div>
+            <span class="rating-hint" id="ratingHintText">Chọn số sao để đánh giá</span>
+          </div>
+          <div class="form-group">
+            <textarea id="reviewText" rows="4" placeholder="Chia sẻ trải nghiệm của bạn về sản phẩm..."></textarea>
+          </div>
+          <div class="review-action-row">
+            <button class="btn btn-outline" onclick="document.getElementById('photoInput').click()">▧ Thêm ảnh</button>
+            <input type="file" id="photoInput" style="display:none;" onchange="alert('Đã chọn 1 ảnh đính kèm!')">
+            <button class="btn btn-primary" onclick="submitReview()">Gửi đánh giá</button>
+          </div>
+        </div>
+        <div class="review-side-card">
+          <div class="summary-card">
+            <h3>Tóm tắt đơn hàng</h3>
+            <div class="summary-row"><span>Tổng cộng</span><strong class="total-price" id="reviewTotalText">0đ</strong></div>
+            <div class="summary-row"><span>Giao hàng</span><strong class="text-green">Đã giao thành công</strong></div>
+            <hr>
+            <h4>Cần hỗ trợ?</h4>
+            <a href="#" class="help-link" onclick="alert('Đang mở hỗ trợ khách hàng ReuseHub'); return false;">Liên hệ người bán ›</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= MODAL CHỌN VOUCHER ================= -->
+  <div id="voucherModal" class="modal-overlay" onclick="closeVoucherModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Chọn ReuseHub Voucher</h3>
+        <button class="modal-close" onclick="closeVoucherModal()">&times;</button>
+      </div>
+      <div class="voucher-input-group">
+        <input type="text" id="customVoucherInput" placeholder="Nhập mã giảm giá..." style="text-transform:uppercase;">
+        <button class="btn btn-primary btn-sm" onclick="applyCustomVoucher()">Áp dụng</button>
+      </div>
+      <div class="voucher-list" id="voucherListContainer"><!-- Render bằng JavaScript --></div>
+      <div class="modal-footer">
+        <button class="btn btn-outline btn-sm" onclick="removeVoucher()">Bỏ chọn voucher</button>
+        <button class="btn btn-primary btn-sm" onclick="closeVoucherModal()">Xong</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="home-page.js"></script>
+</body>
+</html>
