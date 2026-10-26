@@ -1,0 +1,241 @@
+/* ================= CSS TRANG CÀI ĐẶT TÀI KHOẢN ================= */
+body {
+    background-color: #f9fafb;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: #1f2937;
+}
+
+.settings-main {
+    max-width: 750px;
+    margin: 30px auto;
+    padding: 0 20px;
+    min-height: 80vh;
+}
+
+.settings-main h1 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 6px;
+}
+
+.mo-ta {
+    color: #6b7280;
+    font-size: 14px;
+    margin-top: 0;
+    margin-bottom: 24px;
+}
+
+/* Thông báo lỗi / thành công */
+#thongBao {
+    margin-bottom: 20px;
+}
+
+.thanh-cong {
+    padding: 12px 16px;
+    background: #ecfdf5;
+    color: #065f46;
+    border: 1px solid #a7f3d0;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.loi {
+    padding: 12px 16px;
+    background: #fef2f2;
+    color: #b91c1c;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+/* Card tóm tắt tài khoản */
+.thong-tin-tai-khoan {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.anh-dai-dien {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #e6f4ea;
+    color: #0d5c46;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    font-weight: 700;
+    flex-shrink: 0;
+    border: 3px solid #bbf7d0;
+}
+
+.tai-khoan-text h2 {
+    margin: 0 0 4px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.tai-khoan-text #vaiTro {
+    display: inline-block;
+    background-color: #ecfdf5;
+    color: #047857;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-bottom: 4px;
+}
+
+.tai-khoan-text #emailHienThi {
+    margin: 0;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+/* Khung form thông tin & Đăng xuất */
+.khung {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 28px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.khung h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #111827;
+    margin-top: 0;
+    margin-bottom: 18px;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    transition: all 0.2s;
+    font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #0d5c46;
+    box-shadow: 0 0 0 3px rgba(13, 92, 70, 0.1);
+}
+
+.nut-chinh {
+    background-color: #0d5c46;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    margin-top: 8px;
+}
+
+.nut-chinh:hover {
+    background-color: #083c2e;
+}
+
+/* Khung Đăng xuất */
+.dang-xuat {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.dang-xuat h2 {
+    margin-bottom: 4px;
+}
+
+.dang-xuat p {
+    margin: 0;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+#nutDangXuat {
+    background-color: #fee2e2;
+    color: #b91c1c;
+    border: 1px solid #fca5a5;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+#nutDangXuat:hover {
+    background-color: #fecaca;
+    border-color: #f87171;
+}
+
+/* Nút quay lại */
+.nut-quay-lai {
+    display: inline-block;
+    color: #0d5c46;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 6px;
+    margin-bottom: 20px;
+    transition: color 0.2s ease;
+}
+
+.nut-quay-lai:hover {
+    text-decoration: underline;
+    color: #083c2e;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .thong-tin-tai-khoan {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .dang-xuat {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    #nutDangXuat {
+        width: 100%;
+    }
+}
+

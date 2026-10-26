@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReuseHub - Hồ sơ cá nhân</title>
+    <link rel="stylesheet" href="home-page.css">
+    <link rel="stylesheet" href="profile.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="header-container">
+    <a href="index.html" class="logo">
+      <span class="logo-icon">♻</span>
+      <span class="logo-text">ReuseHub</span>
+    </a>
+
+    <div class="header-search">
+      <span class="search-icon">🔍</span>
+      <input type="text" placeholder="Tìm kiếm sản phẩm...">
+    </div>
+
+    <nav class="nav-menu">
+      <a href="index.html" class="nav-link ">
+        <span>🏠</span> Trang chủ
+      </a>
+
+      <a href="index.html" class="nav-link">
+        <span>🛒</span> Giỏ hàng <span class="badge">0</span>
+      </a>
+
+      <a href="index.html" class="nav-link">
+        Theo dõi đơn hàng
+      </a>
+
+      <a href="repair.html" class="nav-link">
+        🔧 Sửa chữa
+      </a>
+
+      <div class="dropdown">
+        <button class="dropdown-btn"
+          onclick="this.nextElementSibling.classList.toggle('show')">
+          Vai trò ▾
+        </button>
+
+        <div class="dropdown-menu">
+          <a href="index.html">🛍️ Người mua</a>
+          <a href="seller.html">🏪 Người bán</a>
+          <a href="repairer.html">🔧 Người sửa chữa</a>
+          <a href="admin.html">⚙️ Quản trị viên</a>
+        </div>
+      </div>
+
+      <a href="profile.html" class="nav-link active">Hồ sơ</a>
+    </nav>
+  </div>
+</header>
+
+   
+    <!-- ================= NỘI DUNG HỒ SƠ ================= -->
+    <main class="profile-main">
+        <h1>Hồ sơ cá nhân</h1>
+        <p class="mo-ta">Quản lý thông tin và hoạt động của bạn trên ReuseHub</p>
+
+        <div id="thongBao"></div>
+
+        <div class="noi-dung">
+            <!-- Thẻ hồ sơ thông tin cá nhân -->
+            <section class="the-ho-so">
+                <div class="anh-dai-dien" id="anhDaiDien">MA</div>
+
+                <div class="thong-tin">
+                    <h2 id="tenHienThi">Nguyễn Minh Anh</h2>
+                    <p id="vaiTro">Thành viên ReuseHub</p>
+
+                    <hr>
+
+                    <h3>Khu vực</h3>
+                    <p id="khuVucHienThi">TP. Hồ Chí Minh</p>
+
+                    <h3>Giới thiệu</h3>
+                    <p id="gioiThieu">Tích cực trao đổi và kéo dài vòng đời sản phẩm.</p>
+
+                    <h3>Thông tin liên hệ</h3>
+                    <p id="emailHienThi">minhanh.reusehub@gmail.com</p>
+                </div>
+            </section>
+
+            <!-- Thẻ cài đặt tài khoản và Hỗ trợ -->
+            <section class="the-cai-dat">
+                <h2>TÀI KHOẢN</h2>
+
+                <a href="settings.html" class="nut-cai-dat">
+                    <strong>⚙ Cài đặt tài khoản</strong>
+                    <span>Cập nhật thông tin cá nhân</span>
+                </a>
+
+                <h2 class="tieu-de-ho-tro">HỖ TRỢ</h2>
+
+                <a href="support.html" class="nut-cai-dat">
+                    <strong>🤖 Trợ lý AI ReUseHub</strong>
+                    <span>Hỗ trợ khách hàng & Gợi ý tuần hoàn</span>
+                </a>
+            </section>
+        </div>
+    </main>
+
+    <script src="profile.js"></script>
+</body>
+</html>
+
