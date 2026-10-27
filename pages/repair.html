@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đăng bài sửa chữa - ReUseHub</title>
+  
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3C9 3 4 8.5 4 15.5c0 6.5 5 11.5 12 11.5 3 0 5.5-1 7-2.5-1-1.5-1.5-3-1.5-5 0-4 3-7 7-7 .5 0 1 .1 1.5.2C29.5 8 23.5 3 16 3z' fill='%23164e32'/%3E%3Cpath d='M8 22c-2 2-3 4-3 5 1 0 3-1 5-3-1-.5-1.5-1.2-2-2z' fill='%2352796f'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Chỉ sử dụng đúng 1 file CSS repair.css -->
+  <link rel="stylesheet" href="repair.css">
+</head>
+<body>
+
+ <!-- ================= HEADER CHUNG (GIỐNG INDEX) ================= -->
+  <header class="header">
+    <div class="header-container">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">♻</span>
+        <span class="logo-text">ReuseHub</span>
+      </a>
+
+      <div class="header-search">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="Tìm kiếm dịch vụ sửa chữa..." disabled>
+      </div>
+
+      <nav class="nav-menu">
+        <a href="index.html" class="nav-link" id="nav-home">
+          <span>🏠</span> Trang chủ
+        </a>
+        <a href="index.html" class="nav-link" id="nav-cart">
+          <span>🛒</span> Giỏ hàng <span class="badge" id="cartCount">0</span>
+        </a>
+        <a href="index.html" class="nav-link" id="nav-tracking">
+          Theo dõi đơn hàng
+        </a>
+        <a href="repair.html" class="nav-link active" id="nav-repair">
+          🔧 Sửa chữa
+        </a>
+
+        <!-- Dropdown Vai trò đồng bộ với index.html -->
+        <div class="dropdown">
+          <button class="dropdown-btn" onclick="toggleRoleDropdown()">Vai trò ▾</button>
+          <div class="dropdown-menu" id="roleMenu">
+            <a href="index.html">🛍️ Người mua</a>
+            <a href="seller.html">🏪 Người bán</a>
+            <a href="repair.html" style="font-weight: 600; color: #0d5c46;">🔧 Người sửa chữa (Hiện tại)</a>
+            <a href="admin.html">⚙️ Quản trị viên</a>
+          </div>
+        </div>
+
+        <a href="profile.html" class="nav-link" id="nav-profile">Hồ sơ</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ======================================================================
+       KHUNG NỘI DUNG CHÍNH (Chuyển đổi 4 màn hình mượt mà bằng JavaScript)
+       ====================================================================== -->
+  <main class="main-content-wrapper">
+
+    <!-- ====================================================================
+         MÀN HÌNH 1: ĐĂNG BÀI SỬA CHỮA (Page 2 PDF)
+         ==================================================================== -->
+    <section id="viewPostRepair">
+      <div class="page-title-header">
+        <h1 class="page-main-heading">Đăng bài sửa chữa</h1>
+        <p class="page-sub-desc">Mô tả vấn đề để tìm đúng người sửa chữa gần bạn.</p>
+      </div>
+
+      <form id="formPostRepair" novalidate>
+        <div class="post-repair-grid">
+
+          <!-- Khu vực bên trái: Biểu mẫu đăng bài -->
+          <div class="repair-form-card">
+            <!-- A. Mô tả vấn đề -->
+            <div class="form-field-group">
+              <label for="postProblemDesc" class="field-label">Mô tả vấn đề</label>
+              <textarea 
+                id="postProblemDesc" 
+                class="form-textarea" 
+                placeholder="Ví dụ: Nồi cơm điện không vào điện, cần kiểm tra và sửa tại nhà..."
+                rows="4"
+                required
+              ></textarea>
+              <span id="descError" class="field-error-text">Vui lòng mô tả vấn đề của món đồ.</span>
+            </div>
+
+            <!-- B. Loại dịch vụ -->
+            <div class="form-field-group">
+              <label for="postServiceType" class="field-label">Loại dịch vụ</label>
+              <select id="postServiceType" class="form-select" required>
+                <option value="">Chọn loại dịch vụ ˅</option>
+                <option value="Điện gia dụng">Điện gia dụng</option>
+                <option value="Nội thất">Nội thất</option>
+                <option value="Điện tử">Điện tử</option>
+                <option value="Phụ kiện và đồ dùng cá nhân">Phụ kiện và đồ dùng cá nhân</option>
+                <option value="Sửa chữa khác">Sửa chữa khác</option>
+              </select>
+              <span id="serviceError" class="field-error-text">Vui lòng chọn loại dịch vụ.</span>
+            </div>
+
+            <!-- C. Khu vực -->
+            <div class="form-field-group">
+              <label for="postLocation" class="field-label">Khu vực</label>
+              <select id="postLocation" class="form-select" required>
+                <option value="">Chọn khu vực ˅</option>
+                <option value="Quận 1">Quận 1, TP. Hồ Chí Minh</option>
+                <option value="Quận 3">Quận 3, TP. Hồ Chí Minh</option>
+                <option value="Quận 5">Quận 5, TP. Hồ Chí Minh</option>
+                <option value="Quận 7">Quận 7, TP. Hồ Chí Minh</option>
+                <option value="Quận 10">Quận 10, TP. Hồ Chí Minh</option>
+                <option value="Tân Bình">Tân Bình, TP. Hồ Chí Minh</option>
+                <option value="Bình Thạnh">Bình Thạnh, TP. Hồ Chí Minh</option>
+                <option value="Thủ Đức">Thủ Đức, TP. Hồ Chí Minh</option>
+              </select>
+              <span id="areaError" class="field-error-text">Vui lòng chọn khu vực của bạn.</span>
+            </div>
+
+            <!-- D. Ngân sách dự kiến -->
+            <div class="form-field-group">
+              <label for="postBudget" class="field-label">Ngân sách dự kiến</label>
+              <input 
+                type="number" 
+                id="postBudget" 
+                class="form-input-number" 
+                placeholder="Nhập ngân sách dự kiến (VNĐ)" 
+                min="0"
+                step="10000"
+              >
+              <span id="budgetError" class="field-error-text">Ngân sách phải là số dương hợp lệ.</span>
+            </div>
+          </div>
+
+          <!-- Khu vực bên phải: Tải ảnh và Mẹo đăng bài -->
+          <div class="post-repair-sidebar">
+            <!-- Thẻ tải ảnh -->
+            <div class="upload-card-box">
+              <h3 class="upload-card-title">Tải ảnh nếu có</h3>
+              <p class="upload-card-desc">Ảnh giúp thợ hiểu rõ tình trạng cần sửa.</p>
+              
+              <input type="file" id="fileUploadInput" accept="image/*" multiple style="display: none;">
+              <button type="button" class="btn-choose-file" id="btnChooseFile">
+                <span>＋ Chọn ảnh</span>
+              </button>
+
+              <!-- Khung xem trước các ảnh đã tải -->
+              <div class="preview-images-list" id="previewImagesContainer"></div>
+            </div>
+
+            <!-- Thẻ mẹo đăng bài hiệu quả -->
+            <div class="tips-card-box">
+              <h4 class="tips-card-title">Mẹo đăng bài hiệu quả</h4>
+              <ul class="tips-list">
+                <li class="tips-item">
+                  <span class="tips-bullet">•</span>
+                  <span>Nêu rõ triệu chứng và thời gian mong muốn</span>
+                </li>
+                <li class="tips-item">
+                  <span class="tips-bullet">•</span>
+                  <span>Chọn khu vực để tìm thợ gần bạn</span>
+                </li>
+                <li class="tips-item">
+                  <span class="tips-bullet">•</span>
+                  <span>Đặt ngân sách tham khảo phù hợp</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Nút đăng bài tìm người sửa chữa -->
+          <div class="post-action-bar">
+            <button type="submit" class="btn-submit-post">
+              Đăng bài tìm người sửa chữa
+            </button>
+          </div>
+
+        </div>
+      </form>
+    </section>
+
+    <!-- ====================================================================
+         MÀN HÌNH 2: NGƯỜI SỬA CHỮA PHÙ HỢP (Page 3 PDF)
+         ==================================================================== -->
+    <section id="viewMatchedRepairers" style="display: none;">
+      <div class="page-title-header">
+        <h1 class="page-main-heading">Người sửa chữa phù hợp</h1>
+        <p class="page-sub-desc">Đã tìm thấy 3 người phù hợp với vấn đề của bạn</p>
+      </div>
+
+      <div class="matched-screen-layout">
+        <!-- Khu vực thông tin bài đăng của bạn -->
+        <div class="user-post-summary-card">
+          <h3 class="summary-card-title">Bài đăng của bạn</h3>
+          <div class="summary-issue-title" id="summaryPostTitle">Nồi cơm điện không vào điện</div>
+          <div class="summary-issue-desc" id="summaryPostDesc">Cần kiểm tra và sửa tại nhà</div>
+          <div class="summary-meta-line" id="summaryPostMeta">Khu vực: Quận 3 · Đã đăng hôm nay</div>
+        </div>
+
+        <!-- Khu vực danh sách 3 người sửa chữa -->
+        <div class="matched-repairers-list" id="matchedRepairersListContainer">
+          <!-- Render tự động từ repair.js -->
+        </div>
+
+        <p class="matched-bottom-note">
+          Bạn có thể xem hồ sơ để chọn người phù hợp nhất hoặc liên hệ ngay.
+        </p>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         MÀN HÌNH 3: HỒ SƠ NGƯỜI SỬA CHỮA · ĐÃ MỞ (Page 4 PDF)
+         ==================================================================== -->
+    <section id="viewRepairerProfile" style="display: none;">
+      <div class="profile-view-wrapper">
+        <span class="btn-back-nav" id="btnBackFromProfile">
+          
+          Quay lại danh sách người sửa chữa
+        </span>
+
+        <div class="page-title-header">
+          <h1 class="page-main-heading">Hồ sơ người sửa chữa · Đã mở</h1>
+          <p class="page-sub-desc">Xem đầy đủ thông tin và liên hệ trực tiếp với người sửa chữa.</p>
+        </div>
+
+        <!-- Thẻ nội dung hồ sơ -->
+        <div class="profile-main-card">
+          <div class="profile-top-header">
+            <div class="profile-identity-box">
+              <div class="profile-avatar-large avatar-color-green" id="profileWorkerInitials">NT</div>
+              <div>
+                <h2 class="profile-name" id="profileWorkerName">Phạm Đức Chiến</h2>
+                <p class="profile-specialty" id="profileWorkerSpecialty">Thợ điện gia dụng</p>
+                <p class="profile-location" id="profileWorkerLocation">Quận 3 · 2,4 km</p>
+                <div class="profile-rating-line" id="profileWorkerRating">
+                  <span class="star-icon">&#9733;</span> 4.9 · 126 đánh giá
+                </div>
+              </div>
+            </div>
+
+            <div class="profile-badges-box">
+              <span class="badge-tag-verified">&#10003; Đã xác minh</span>
+              <span class="badge-tag-available">Có mặt hôm nay</span>
+            </div>
+          </div>
+
+          <div class="profile-content-split">
+            <!-- Thông tin chi tiết -->
+            <div class="profile-bio-box">
+              <h4>Thông tin hồ sơ</h4>
+              <p class="profile-bio-text" id="profileWorkerBio">
+                Nhận sửa chữa thiết bị điện gia dụng tại nhà, tư vấn rõ ràng và báo giá trước khi thực hiện.
+              </p>
+              
+              <div class="profile-specs-list">
+                <div class="profile-spec-row">
+                  <span class="profile-spec-label">Kinh nghiệm:</span>
+                  <span class="profile-spec-val" id="profileWorkerExp">5 năm</span>
+                </div>
+                <div class="profile-spec-row">
+                  <span class="profile-spec-label">Dịch vụ:</span>
+                  <span class="profile-spec-val" id="profileWorkerServices">Điện gia dụng, nồi cơm điện, quạt, bếp</span>
+                </div>
+                <div class="profile-spec-row">
+                  <span class="profile-spec-label">Thời gian:</span>
+                  <span class="profile-spec-val" id="profileWorkerHours">08:00 – 20:00, Thứ 2 – Chủ nhật</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Khung đặt lịch / Liên hệ -->
+            <div class="profile-contact-cta-box">
+              <span class="status-badge-opened">Hồ sơ đã mở</span>
+              <p class="cta-sub-text">Liên hệ để trao đổi và đặt lịch sửa chữa</p>
+              <button type="button" class="btn-start-chat" id="btnStartChatFromProfile">
+                Liên Hệ
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         MÀN HÌNH 4: TRÒ CHUYỆN VỚI NGƯỜI SỬA CHỮA (Page 5 PDF)
+         ==================================================================== -->
+    <section id="viewChatScreen" style="display: none;">
+      <div class="chat-screen-wrapper">
+        <div class="chat-header-bar">
+          <div class="chat-header-title-box">
+            <span class="btn-back-nav" id="btnBackFromChat" style="margin-bottom: 0;">
+              
+            </span>
+            <h1 class="chat-heading-text">Liên hệ người sửa chữa</h1>
+          </div>
+          <span class="chat-status-pill">
+            <span class="status-green-dot"></span>
+            <span>Đang trao đổi</span>
+          </span>
+        </div>
+
+        <!-- Khối tóm tắt thông tin thợ & nội dung yêu cầu -->
+        <div class="chat-summary-header-card">
+          <div class="chat-worker-brief">
+            <div class="chat-worker-avatar avatar-color-green" id="chatWorkerInitials">NT</div>
+            <div>
+              <div style="font-weight: 700; font-size: 1.05rem;" id="chatWorkerName">Phạm Đức Chiến</div>
+              <div style="font-size: 0.85rem; color: #4b5563;" id="chatWorkerSpecialty">Thợ điện gia dụng</div>
+              <div style="font-size: 0.8rem; color: #6b7280; display:flex; gap:8px;" id="chatWorkerLocation">
+                <span>📍 Quận 3 · 2,4 km</span>
+              </div>
+              <div style="font-size: 0.8rem; font-weight: 700; color: #111827;" id="chatWorkerRating">
+                <span class="star-icon">&#9733;</span> 4.9
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-request-brief">
+            <div class="request-icon-circle">
+              
+            </div>
+            <div>
+              <div class="request-brief-title">Nội dung yêu cầu</div>
+              <div class="request-brief-content" id="chatRequestTitle">Cần sửa quạt điện không chạy</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Khung danh sách tin nhắn hội thoại -->
+        <div class="chat-messages-container" id="chatMessagesList">
+          <!-- Tin nhắn mẫu chuẩn thiết kế PDF -->
+          <div class="message-row incoming">
+            <div class="msg-avatar worker">NT</div>
+            <div class="msg-bubble-wrap">
+              <div class="msg-bubble">Chào anh/chị! Tôi đã xem yêu cầu của anh/chị về việc quạt điện không chạy.</div>
+              <span class="msg-timestamp">10:02</span>
+            </div>
+          </div>
+
+          <div class="message-row outgoing">
+            <div class="msg-avatar user">Tôi</div>
+            <div class="msg-bubble-wrap">
+              <div class="msg-bubble">Chào anh Chiến! Quạt của tôi bật không lên, không có gió.</div>
+              <span class="msg-timestamp">10:04</span>
+            </div>
+          </div>
+
+          <div class="message-row incoming">
+            <div class="msg-avatar worker">NT</div>
+            <div class="msg-bubble-wrap">
+              <div class="msg-bubble">Dạ, tôi có thể đến kiểm tra và sửa cho anh/chị. Anh/chị có thể cho tôi biết thời gian phù hợp không ạ?</div>
+              <span class="msg-timestamp">10:05</span>
+            </div>
+          </div>
+
+          <div class="message-row outgoing">
+            <div class="msg-avatar user">Tôi</div>
+            <div class="msg-bubble-wrap">
+              <div class="msg-bubble">Anh có thể đến lúc 14:30 chiều nay được không ạ?</div>
+              <span class="msg-timestamp">10:06</span>
+            </div>
+          </div>
+
+          <div class="message-row incoming">
+            <div class="msg-avatar worker">NT</div>
+            <div class="msg-bubble-wrap">
+              <div class="msg-bubble">Dạ được ạ. Tôi sẽ đến lúc 14:30. Địa chỉ vẫn ở Quận 3 đúng không anh/chị?</div>
+              <span class="msg-timestamp">10:07</span>
+            </div>
+          </div>
+
+          <div class="message-row outgoing">
+            <div class="msg-avatar user">Tôi</div>
+            <div class="msg-bubble-wrap">
+              <div class="msg-bubble">Đúng rồi ạ, địa chỉ Quận 3 nhé.</div>
+              <span class="msg-timestamp">10:08</span>
+            </div>
+          </div>
+
+          <div class="message-row incoming">
+            <div class="msg-avatar worker">NT</div>
+            <div class="msg-bubble-wrap">
+              <div class="msg-bubble">Dạ vâng, tôi đã ghi nhận. Hẹn gặp anh/chị lúc 14:30 nhé!</div>
+              <span class="msg-timestamp">10:09</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Thanh nhập tin nhắn và nút gọi -->
+        <div class="chat-input-bar">
+          <div class="chat-input-box-wrap">
+            <input 
+              type="text" 
+              id="chatInputMessage" 
+              class="chat-text-input" 
+              placeholder="Nhập tin nhắn..." 
+              autocomplete="off"
+            >
+            <button type="button" class="btn-send-message" id="btnSendMessage" title="Gửi tin nhắn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+              </svg>
+            </button>
+          </div>
+
+          <button type="button" class="btn-call-worker" id="btnCallWorker">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+            </svg>
+            <span>Gọi cho người sửa chữa</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Chỉ sử dụng đúng 1 file JS repair.js -->
+  <script src="repair.js"></script>
+</body>
+</html>
+
