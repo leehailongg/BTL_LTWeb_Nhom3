@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReUseHub - Trang Quản Trị</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♻️</text></svg>">
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Bố cục ứng dụng chính: Sidebar + Main Content -->
+  <div class="admin-layout">
+    
+    <!-- THANH ĐIỀU HƯỚNG BÊN TRÁI (SIDEBAR) -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top">
+        <!-- Logo -->
+        <a href="#" class="logo" onclick="showView('home'); return false;">
+          <span class="logo-icon">♻</span>
+          <span class="logo-text">ReuseHub</span>
+        </a>
+        <div class="sidebar-label">TRANG QUẢN TRỊ</div>
+
+        <!-- Danh sách 8 màn hình menu -->
+        <nav class="sidebar-nav">
+          <a href="#overview" class="nav-item active" data-page="overview">
+            <span class="nav-num">01</span>
+            <span class="nav-text">Tổng quan</span>
+          </a>
+          <a href="#moderation" class="nav-item" data-page="moderation">
+            <span class="nav-num">02</span>
+            <span class="nav-text">Kiểm duyệt tin đăng</span>
+          </a>
+          <a href="#reports" class="nav-item" data-page="reports">
+            <span class="nav-num">03</span>
+            <span class="nav-text">Báo cáo &amp; khiếu nại</span>
+          </a>
+          <a href="#users" class="nav-item" data-page="users">
+            <span class="nav-num">04</span>
+            <span class="nav-text">Quản lý người dùng</span>
+          </a>
+          <a href="#categories" class="nav-item" data-page="categories">
+            <span class="nav-num">05</span>
+            <span class="nav-text">Quản lý danh mục</span>
+          </a>
+          <a href="#statistics" class="nav-item" data-page="statistics">
+            <span class="nav-num">06</span>
+            <span class="nav-text">Báo cáo thống kê</span>
+          </a>
+          <a href="#activity-log" class="nav-item" data-page="activity-log">
+            <span class="nav-num">07</span>
+            <span class="nav-text">Nhật ký hoạt động</span>
+          </a>
+          <a href="#system" class="nav-item" data-page="system">
+            <span class="nav-num">08</span>
+            <span class="nav-text">Quản trị hệ thống</span>
+          </a>
+        </nav>
+      </div>
+
+      <!-- Nút Đăng xuất ở cuối sidebar -->
+      <div class="sidebar-bottom">
+        <button class="logout-btn" id="logoutBtn" type="button">
+          <span class="logout-icon">⇥</span>
+          <span>Đăng xuất</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Overlay cho sidebar trên màn hình di động/tablet -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- KHU VỰC NỘI DUNG CHÍNH (MAIN WRAPPER) -->
+    <div class="main-wrapper">
+      
+      <!-- THANH TIÊU ĐỀ (HEADER) -->
+      <header class="top-header">
+        <div class="header-left">
+          <!-- Nút toggle sidebar trên di động -->
+          <button class="menu-toggle-btn" id="menuToggleBtn" aria-label="Mở menu">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+          <!-- Tên màn hình hiện tại trên header -->
+          <h1 class="page-title" id="pageHeaderTitle">Tổng quan</h1>
+        </div>
+
+        <div class="header-right">
+          <!-- Ô tìm kiếm toàn cục -->
+          <div class="global-search-box">
+            <span class="search-icon">⌕</span>
+            <input type="text" id="globalSearchInput" placeholder="Tìm kiếm..." autocomplete="off">
+            <button class="clear-search-btn" id="clearSearchBtn" style="display: none;">×</button>
+          </div>
+
+          <!-- Khu vực tài khoản quản trị viên -->
+          <div class="admin-account-dropdown" id="adminDropdown">
+            <button class="admin-pill-btn" id="adminPillBtn" aria-expanded="false">
+              <span class="admin-dot">◉</span>
+              <span class="admin-name">Quản trị viên</span>
+              <span class="dropdown-chevron">⌄</span>
+            </button>
+            <div class="dropdown-menu" id="adminDropdownMenu">
+              <div class="dropdown-user-info">
+                <strong>Nguyễn Minh</strong>
+                <span class="user-role-badge">Super Admin</span>
+                <small>minh.nguyen@reusehub.vn</small>
+              </div>
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-item" onclick="app.navigateTo('system')">⚙ Cài đặt hệ thống</button>
+              <button class="dropdown-item" onclick="app.navigateTo('activity-log')">📋 Lịch sử thao tác</button>
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-item text-danger" onclick="app.handleLogout()">⇥ Đăng xuất</button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- KHU VỰC CÁC MÀN HÌNH NỘI DUNG (8 MÀN HÌNH) -->
+      <main class="page-content">
+
+        <!-- ========================================== -->
+        <!-- MÀN HÌNH 1: TỔNG QUAN (PAGE 1 TRONG PDF)   -->
+        <!-- ========================================== -->
+        <section class="screen-view active" id="view-overview">
+          <div class="screen-header-meta">
+            <p class="screen-subtitle">Tóm tắt hoạt động vận hành và các việc cần xử lý hôm nay</p>
+          </div>
+
+          <!-- 4 thẻ thống kê chính -->
+          <div class="stat-cards-grid grid-4">
+            <div class="stat-card clickable" onclick="app.navigateTo('moderation')" title="Nhấn để xem tin chờ duyệt">
+              <div class="stat-number color-amber" id="ovStatPending">126</div>
+              <div class="stat-label">Chờ kiểm duyệt</div>
+            </div>
+            <div class="stat-card clickable" onclick="app.navigateTo('reports')" title="Nhấn để xem báo cáo mới">
+              <div class="stat-number color-coral" id="ovStatReports">38</div>
+              <div class="stat-label">Báo cáo mới</div>
+            </div>
+            <div class="stat-card clickable" onclick="app.navigateTo('users')" title="Nhấn để xem người dùng">
+              <div class="stat-number color-green" id="ovStatUsers">8.642</div>
+              <div class="stat-label">Người dùng</div>
+            </div>
+            <div class="stat-card clickable" onclick="app.navigateTo('categories')" title="Nhấn để xem danh mục">
+              <div class="stat-number color-dark" id="ovStatCategories">24</div>
+              <div class="stat-label">Danh mục hoạt động</div>
+            </div>
+          </div>
+
+          <!-- Khu vực 2 cột: Biểu đồ xu hướng và Việc cần xử lý -->
+          <div class="dashboard-columns">
+            <!-- Cột trái: Xu hướng vận hành 30 ngày -->
+            <div class="card-box chart-card-box">
+              <h2 class="card-title">Xu hướng vận hành 30 ngày</h2>
+              <div class="chart-summary-badges">
+                <div class="summary-metric">
+                  <span class="metric-title">Tin đăng mới</span>
+                  <span class="metric-val color-green">842</span>
+                </div>
+                <div class="summary-metric">
+                  <span class="metric-title">Người dùng mới</span>
+                  <span class="metric-val color-dark">1.286</span>
+                </div>
+                <div class="summary-metric">
+                  <span class="metric-title">Báo cáo đã xử lý</span>
+                  <span class="metric-val color-amber">146</span>
+                </div>
+              </div>
+              <div class="chart-container" style="position: relative; height: 260px; width: 100%;">
+                <canvas id="overviewTrendChart"></canvas>
+              </div>
+              <div class="chart-week-labels">
+                <span>Tuần 1</span>
+                <span>Tuần 2</span>
+                <span>Tuần 3</span>
+                <span>Tuần 4</span>
+              </div>
+            </div>
+
+            <!-- Cột phải: Việc cần xử lý -->
+            <div class="card-box todo-card-box">
+              <h2 class="card-title">Việc cần xử lý</h2>
+              <div class="todo-list">
+                <div class="todo-item" onclick="app.navigateTo('moderation')">
+                  <div class="todo-bullet"></div>
+                  <span class="todo-text"><strong id="ovTodoPending">126</strong> tin đăng chờ duyệt</span>
+                  <span class="todo-arrow">→</span>
+                </div>
+                <div class="todo-item" onclick="app.navigateTo('reports')">
+                  <div class="todo-bullet"></div>
+                  <span class="todo-text"><strong id="ovTodoReports">38</strong> báo cáo mới</span>
+                  <span class="todo-arrow">→</span>
+                </div>
+                <div class="todo-item" onclick="app.navigateTo('system')">
+                  <div class="todo-bullet"></div>
+                  <span class="todo-text"><strong>12</strong> yêu cầu phân quyền</span>
+                  <span class="todo-arrow">→</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dòng thời gian cập nhật dữ liệu -->
+          <div class="update-timestamp" id="overviewTimestamp">
+            Cập nhật dữ liệu: 18/06/2025 09:30
+          </div>
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- MÀN HÌNH 2: KIỂM DUYỆT TIN ĐĂNG (PAGE 2)  -->
+        <!-- ========================================== -->
+        <section class="screen-view" id="view-moderation">
+          <div class="screen-header-meta">
+            <p class="screen-subtitle">Xem xét, phê duyệt hoặc từ chối nội dung do người dùng gửi</p>
+          </div>
+
+          <!-- 3 thẻ thống kê -->
+          <div class="stat-cards-grid grid-3">
+            <div class="stat-card">
+              <div class="stat-number color-amber" id="modStatPending">126</div>
+              <div class="stat-label">Chờ duyệt</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number color-green" id="modStatApproved">84</div>
+              <div class="stat-label">Đã duyệt hôm nay</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number color-coral" id="modStatRejected">12</div>
+              <div class="stat-label">Từ chối hôm nay</div>
+            </div>
+          </div>
+
+          <!-- Thanh bộ lọc theo PDF -->
+          <div class="filter-bar">
+            <div class="search-input-wrap">
+              <span class="input-icon">⌕</span>
+              <input type="text" id="modFilterSearch" placeholder="Tìm tiêu đề hoặc người đăng">
+            </div>
+            <div class="select-wrap">
+              <select id="modFilterCategory">
+                <option value="">Danh mục ⌄</option>
+                <option value="Nội thất">Nội thất</option>
+                <option value="Gia dụng">Gia dụng</option>
+                <option value="Di chuyển">Di chuyển</option>
+                <option value="Thời trang">Thời trang</option>
+                <option value="Điện tử">Điện tử</option>
+              </select>
+            </div>
+            <div class="select-wrap">
+              <select id="modFilterStatus">
+                <option value="">Trạng thái ⌄</option>
+                <option value="Chờ duyệt">Chờ duyệt</option>
+                <option value="Đã duyệt">Đã duyệt</option>
+                <option value="Từ chối">Từ chối</option>
+              </select>
+            </div>
+            <div class="select-wrap">
+              <select id="modFilterDate">
+                <option value="">Ngày đăng ⌄</option>
+                <option value="today">Hôm nay (18/06/2025)</option>
+                <option value="yesterday">Hôm qua (17/06/2025)</option>
+                <option value="older">Cũ hơn</option>
+              </select>
+            </div>
+            <button class="btn btn-primary" id="modBtnFilter" type="button">Lọc dữ liệu</button>
+            <button class="btn btn-outline" id="modBtnReset" type="button" title="Đặt lại bộ lọc">Đặt lại</button>
+          </div>
+
+          <!-- Bảng danh sách tin đăng -->
+          <div class="card-box table-card-box">
+            <h2 class="card-title">Danh sách tin đăng</h2>
+            <div class="table-responsive">
+              <table class="data-table" id="modTable">
+                <thead>
+                  <tr>
+                    <th>Tiêu đề</th>
+                    <th>Người đăng</th>
+                    <th>Danh mục</th>
+                    <th>Ngày gửi</th>
+                    <th>Trạng thái</th>
+                    <th>Thao tác</th>
+                  </tr>
+                </thead>
+                <tbody id="modTableBody">
+                  <!-- Render từ script.js -->
+                </tbody>
+              </table>
+            </div>
+            <div class="empty-state" id="modEmptyState" style="display: none;">
+              <p>Không tìm thấy tin đăng nào phù hợp với bộ lọc.</p>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- MÀN HÌNH 3: BÁO CÁO & KHIẾU NẠI (PAGE 3)   -->
+        <!-- ========================================== -->
+        <section class="screen-view" id="view-reports">
+          <div class="screen-header-meta">
+            <p class="screen-subtitle">Tiếp nhận, phân loại và xử lý phản ánh từ cộng đồng</p>
+          </div>
+
+          <!-- 3 thẻ thống kê -->
+          <div class="stat-cards-grid grid-3">
+            <div class="stat-card">
+              <div class="stat-number color-coral" id="repStatNew">38</div>
+              <div class="stat-label">Báo cáo mới</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number color-amber" id="repStatProcessing">21</div>
+              <div class="stat-label">Đang xử lý</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number color-green" id="repStatResolved">146</div>
+              <div class="stat-label">Đã giải quyết</div>
+            </div>
+          </div>
+
+          <!-- Thanh bộ lọc -->
+          <div class="filter-bar">
+            <div class="search-input-wrap">
+              <span class="input-icon">⌕</span>
+              <input type="text" id="repFilterSearch" placeholder="Mã báo cáo hoặc nội dung">
+            </div>
+            <div class="select-wrap">
+              <select id="repFilterType">
+                <option value="">Loại báo cáo ⌄</option>
+                <option value="Tin đăng sai thông tin">Tin đăng sai thông tin</option>
+                <option value="Nội dung không phù hợp">Nội dung không phù hợp</option>
+                <option value="Tài khoản giả mạo">Tài khoản giả mạo</option>
+                <option value="Spam / quảng cáo">Spam / quảng cáo</option>
+                <option value="Giao dịch ngoài nền tảng">Giao dịch ngoài nền tảng</option>
+              </select>
+            </div>
+            <div class="select-wrap">
+              <select id="repFilterSeverity">
+                <option value="">Mức độ ⌄</option>
+                <option value="Cao">Cao</option>
+                <option value="Trung bình">Trung bình</option>
+                <option value="Thấp">Thấp</option>
+              </select>
+            </div>
+            <div class="select-wrap">
+              <select id="repFilterStatus">
+                <option value="">Trạng thái ⌄</option>
+                <option value="Mới">Mới</option>
+                <option value="Đang xử lý">Đang xử lý</option>
+                <option value="Đã giải quyết">Đã giải quyết</option>
+              </select>
+            </div>
+            <button class="btn btn-outline" id="repBtnReset" type="button">Đặt lại</button>
+          </div>
+
+          <!-- Bảng danh sách báo cáo & khiếu nại -->
+          <div class="card-box table-card-box">
+            <h2 class="card-title">Danh sách báo cáo &amp; khiếu nại</h2>
+            <div class="table-responsive">
+              <table class="data-table" id="repTable">
+                <thead>
+                  <tr>
+                    <th>Mã</th>
+                    <th>Nội dung</th>
+                    <th>Người gửi</th>
+                    <th>Ngày gửi</th>
+                    <th>Mức độ</th>
+                    <th>Trạng thái</th>
+                    <th>Thao tác</th>
+                  </tr>
+                </thead>
+                <tbody id="repTableBody">
+                  <!-- Render từ script.js -->
+                </tbody>
+              </table>
+            </div>
+            <div class="empty-state" id="repEmptyState" style="display: none;">
+              <p>Không có báo cáo nào phù hợp với bộ lọc hiện tại.</p>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- MÀN HÌNH 4: QUẢN LÝ NGƯỜI DÙNG (PAGE 4)   -->
+        <!-- ========================================== -->
+        <section class="screen-view" id="view-users">
+          <div class="screen-header-meta">
+            <p class="screen-subtitle">Quản lý tài khoản, vai trò và trạng thái hoạt động của người dùng</p>
+          </div>
+
+          <!-- 3 thẻ thống kê -->
+          <div class="stat-cards-grid grid-3">
+            <div class="stat-card">
+              <div class="stat-number color-green" id="usrStatTotal">8.642</div>
+              <div class="stat-label">Tổng người dùng</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number color-dark" id="usrStatNew">1.286</div>
+              <div class="stat-label">Người dùng mới</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number color-coral" id="usrStatLocked">42</div>
+              <div class="stat-label">Tài khoản bị khóa</div>
+            </div>
+          </div>
+
+          <!-- Thanh bộ lọc và nút thêm người dùng -->
+          <div class="filter-bar filter-bar-with-action">
+            <div class="filter-left-group">
+              <div class="search-input-wrap">
+                <span class="input-icon">⌕</span>
+                <input type="text" id="usrFilterSearch" placeholder="Tên hoặc email">
+              </div>
+              <div class="select-wrap">
+                <select id="usrFilterRole">
+                  <option value="">Vai trò ⌄</option>
+                  <option value="Người dùng">Người dùng</option>
+                  <option value="Moderator">Moderator</option>
+                </select>
+              </div>
+              <div class="select-wrap">
+                <select id="usrFilterStatus">
+                  <option value="">Trạng thái ⌄</option>
+                  <option value="Hoạt động">Hoạt động</option>
+                  <option value="Bị khóa">Bị khóa</option>
+                </select>
+              </div>
+              <button class="btn btn-outline" id="usrBtnReset" type="button">Đặt lại</button>
+            </div>
+            <button class="btn btn-primary" id="usrBtnAdd" type="button">＋ Thêm người dùng</button>
+          </div>
+
+          <!-- Bảng danh sách người dùng -->
+          <div class="card-box table-card-box">
+            <h2 class="card-title">Danh sách người dùng</h2>
+            <div class="table-responsive">
+              <table class="data-table" id="usrTable">
+                <thead>
+                  <tr>
+                    <th>Họ tên</th>
+                    <th>Email</th>
+                    <th>Vai trò</th>
+                    <th>Ngày tham gia</th>
+                    <th>Trạng thái</th>
+                    <th>Thao tác</th>
+                  </tr>
+                </thead>
+                <tbody id="usrTableBody">
+                  <!-- Render từ script.js -->
+                </tbody>
+              </table>
+            </div>
+            <div class="empty-state" id="usrEmptyState" style="display: none;">
+              <p>Không tìm thấy người dùng nào phù hợp.</p>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- MÀN HÌNH 5: QUẢN LÝ DANH MỤC (PAGE 5)     -->
+        <!-- ========================================== -->
+        <section class="screen-view" id="view-categories">
+          <div class="screen-header-meta">
+            <p class="screen-subtitle">Tổ chức nhóm nội dung, trạng thái và hiệu quả từng danh mục</p>
+          </div>
+
+          <!-- 3 thẻ thống kê -->
+          <div class="stat-cards-grid grid-3">
+            <div class="stat-card">
+              <div class="stat-number color-green" id="catStatActive">24</div>
+              <div class="stat-label">Đang hoạt động</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number color-amber" id="catStatHidden">5</div>
+              <div class="stat-label">Tạm ẩn</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number color-dark" id="catStatTotalPosts">926</div>
+              <div class="stat-label">Tổng tin đăng</div>
+            </div>
+          </div>
+
+          <!-- Thanh bộ lọc và nút thêm danh mục -->
+          <div class="filter-bar filter-bar-with-action">
+            <div class="filter-left-group">
+              <div class="search-input-wrap">
+                <span class="input-icon">⌕</span>
+                <input type="text" id="catFilterSearch" placeholder="Tìm tên danh mục">
+              </div>
+              <div class="select-wrap">
+                <select id="catFilterStatus">
+                  <option value="">Trạng thái ⌄</option>
+                  <option value="Đang hoạt động">Đang hoạt động</option>
+                  <option value="Tạm ẩn">Tạm ẩn</option>
+                </select>
+              </div>
+              <button class="btn btn-outline" id="catBtnReset" type="button">Đặt lại</button>
+            </div>
+            <button class="btn btn-primary" id="catBtnAdd" type="button">＋ Thêm danh mục</button>
+          </div>
+
+          <!-- Bảng danh sách danh mục -->
+          <div class="card-box table-card-box">
+            <h2 class="card-title">Danh sách danh mục</h2>
+            <div class="table-responsive">
+              <table class="data-table" id="catTable">
+                <thead>
+                  <tr>
+                    <th>Tên danh mục</th>
+                    <th>Số tin đăng</th>
+                    <th>Ngày tạo</th>
+                    <th>Trạng thái</th>
+                    <th>Thao tác</th>
+                  </tr>
+                </thead>
+                <tbody id="catTableBody">
+                  <!-- Render từ script.js -->
+                </tbody>
+              </table>
+            </div>
+            <div class="empty-state" id="catEmptyState" style="display: none;">
+              <p>Không tìm thấy danh mục nào phù hợp.</p>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- MÀN HÌNH 6: BÁO CÁO THỐNG KÊ (PAGE 6)     -->
+        <!-- ========================================== -->
+        <section class="screen-view" id="view-statistics">
+          <div class="screen-header-meta">
+            <p class="screen-subtitle">Phân tích chuyên sâu về tăng trưởng, hiệu quả và mức độ tái sử dụng</p>
+          </div>
+
+          <!-- Thanh bộ lọc thời gian và nút xuất báo cáo -->
+          <div class="filter-bar filter-bar-with-action stat-date-bar">
+            <div class="filter-left-group">
+              <div class="date-input-wrap">
+                <input type="date" id="statStartDate" value="2025-06-01">
+              </div>
+              <div class="date-input-wrap">
+                <input type="date" id="statEndDate" value="2025-06-30">
+              </div>
+              <div class="select-wrap">
+                <select id="statCompareSelect">
+                  <option value="last_month">So sánh tháng trước ⌄</option>
+                  <option value="last_quarter">So sánh quý trước</option>
+                  <option value="last_year">So sánh năm trước</option>
+                </select>
+              </div>
+            </div>
+            <div class="btn-group">
+              <button class="btn btn-primary" id="statBtnExportCsv" type="button">Xuất báo cáo</button>
+              <button class="btn btn-outline" id="statBtnPrintPdf" type="button">In báo cáo (PDF)</button>
+            </div>
+          </div>
+
+          <!-- 4 thẻ thống kê tăng trưởng -->
+          <div class="stat-cards-grid grid-4">
+            <div class="stat-card">
+              <div class="stat-number color-dark" id="statNumPosts">842</div>
+              <div class="stat-label">Tin đăng mới <span class="trend-badge positive">+18%</span></div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number color-dark" id="statNumUsers">1.286</div>
+              <div class="stat-label">Người dùng mới <span class="trend-badge positive">+12%</span></div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number color-amber" id="statNumReuse">78%</div>
+              <div class="stat-label">Tỷ lệ tái sử dụng <span class="trend-badge positive">+6%</span></div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number color-dark" id="statNumRating">4.8/5</div>
+              <div class="stat-label">Điểm hài lòng</div>
+            </div>
+          </div>
+
+          <!-- 2 Cột Biểu đồ: Tăng trưởng theo tuần & Phân bổ theo danh mục -->
+          <div class="dashboard-columns">
+            <!-- Cột trái: Tăng trưởng theo tuần -->
+            <div class="card-box chart-card-box">
+              <h2 class="card-title">Tăng trưởng theo tuần</h2>
+              <div class="chart-legend-custom">
+                <div class="legend-item"><span class="legend-color-dot dot-posts"></span> Tin đăng</div>
+                <div class="legend-item"><span class="legend-color-dot dot-users"></span> Người dùng</div>
+              </div>
+              <div class="chart-container" style="position: relative; height: 260px; width: 100%;">
+                <canvas id="weeklyGrowthChart"></canvas>
+              </div>
+              <div class="chart-week-labels">
+                <span>Tuần 1</span>
+                <span>Tuần 2</span>
+                <span>Tuần 3</span>
+                <span>Tuần 4</span>
+              </div>
+            </div>
+
+            <!-- Cột phải: Phân bổ theo danh mục -->
+            <div class="card-box chart-card-box">
+              <h2 class="card-title">Phân bổ theo danh mục</h2>
+              <div class="category-breakdown-list" id="statCategoryBreakdown">
+                <div class="breakdown-item">
+                  <div class="breakdown-left">
+                    <span class="breakdown-dot dot-furniture"></span>
+                    <span class="breakdown-name">Nội thất</span>
+                  </div>
+                  <strong class="breakdown-val">328</strong>
+                </div>
+                <div class="breakdown-item">
+                  <div class="breakdown-left">
+                    <span class="breakdown-dot dot-appliances"></span>
+                    <span class="breakdown-name">Gia dụng</span>
+                  </div>
+                  <strong class="breakdown-val">246</strong>
+                </div>
+                <div class="breakdown-item">
+                  <div class="breakdown-left">
+                    <span class="breakdown-dot dot-fashion"></span>
+                    <span class="breakdown-name">Thời trang</span>
+                  </div>
+                  <strong class="breakdown-val">198</strong>
+                </div>
+                <div class="breakdown-item">
+                  <div class="breakdown-left">
+                    <span class="breakdown-dot dot-transport"></span>
+                    <span class="breakdown-name">Di chuyển</span>
+                  </div>
+                  <strong class="breakdown-val">154</strong>
+                </div>
+              </div>
+              <!-- Biểu đồ donut bổ trợ trực quan -->
+              <div class="chart-container" style="position: relative; height: 160px; width: 100%; margin-top: 15px;">
+                <canvas id="categoryPieChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Khu vực: Kết luận kỳ báo cáo -->
+          <div class="card-box conclusion-box">
+            <h2 class="card-title">Kết luận kỳ báo cáo</h2>
+            <p class="conclusion-text">
+              Tăng trưởng ổn định; Nội thất dẫn đầu hoạt động. Ưu tiên xử lý 126 tin đăng tồn và duy trì tỷ lệ tái sử dụng trên 75%.
+            </p>
+          </div>
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- MÀN HÌNH 7: NHẬT KÝ HOẠT ĐỘNG (PAGE 7)    -->
+        <!-- ========================================== -->
+        <section class="screen-view" id="view-activity-log">
+          <div class="screen-header-meta">
+            <p class="screen-subtitle">Theo dõi đầy đủ thao tác quản trị và lịch sử thay đổi hệ thống</p>
+          </div>
+
+          <!-- Thanh bộ lọc theo PDF -->
+          <div class="filter-bar filter-bar-with-action">
+            <div class="filter-left-group">
+              <div class="select-wrap">
+                <select id="logFilterTime">
+                  <option value="">Khoảng thời gian ⌄</option>
+                  <option value="today">Hôm nay (18/06)</option>
+                  <option value="yesterday">Hôm qua (17/06)</option>
+                  <option value="all">Toàn bộ thời gian</option>
+                </select>
+              </div>
+              <div class="select-wrap">
+                <select id="logFilterActor">
+                  <option value="">Người thực hiện ⌄</option>
+                  <option value="Nguyễn Minh">Nguyễn Minh</option>
+                  <option value="Trần Thị Lan">Trần Thị Lan</option>
+                  <option value="Lê Hoàng">Lê Hoàng</option>
+                  <option value="Phạm An">Phạm An</option>
+                </select>
+              </div>
+              <div class="select-wrap">
+                <select id="logFilterAction">
+                  <option value="">Loại hành động ⌄</option>
+                  <option value="Duyệt tin đăng">Duyệt tin đăng</option>
+                  <option value="Từ chối tin đăng">Từ chối tin đăng</option>
+                  <option value="Khóa tài khoản">Khóa tài khoản</option>
+                  <option value="Mở khóa tài khoản">Mở khóa tài khoản</option>
+                  <option value="Cập nhật danh mục">Cập nhật danh mục</option>
+                  <option value="Thêm danh mục">Thêm danh mục</option>
+                  <option value="Xử lý báo cáo">Xử lý báo cáo</option>
+                  <option value="Thay đổi quyền">Thay đổi quyền</option>
+                  <option value="Duyệt người dùng">Duyệt người dùng</option>
+                </select>
+              </div>
+              <div class="search-input-wrap">
+                <span class="input-icon">⌕</span>
+                <input type="text" id="logFilterSearch" placeholder="Tìm kiếm hoạt động">
+              </div>
+            </div>
+            <button class="btn btn-primary" id="logBtnExport" type="button">Xuất nhật ký</button>
+          </div>
+
+          <!-- Bảng lịch sử hoạt động -->
+          <div class="card-box table-card-box">
+            <h2 class="card-title">Lịch sử hoạt động</h2>
+            <div class="table-responsive">
+              <table class="data-table" id="logTable">
+                <thead>
+                  <tr>
+                    <th>Thời gian</th>
+                    <th>Người thực hiện</th>
+                    <th>Hành động</th>
+                    <th>Đối tượng</th>
+                    <th>Chi tiết</th>
+                    <th>Trạng thái</th>
+                  </tr>
+                </thead>
+                <tbody id="logTableBody">
+                  <!-- Render từ script.js -->
+                </tbody>
+              </table>
+            </div>
+            <div class="empty-state" id="logEmptyState" style="display: none;">
+              <p>Không tìm thấy bản ghi nhật ký hoạt động nào phù hợp.</p>
+            </div>
+
+            <!-- Phân trang theo PDF: Trang 1 / 8 ‹ 1 2 3 › -->
+            <div class="table-pagination-footer">
+              <div class="page-indicator" id="logPageIndicator">Trang 1 / 8</div>
+              <div class="pagination-controls" id="logPaginationControls">
+                <!-- Render từ script.js -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- MÀN HÌNH 8: QUẢN TRỊ HỆ THỐNG (PAGE 8)    -->
+        <!-- ========================================== -->
+        <section class="screen-view" id="view-system">
+          <div class="screen-header-meta">
+            <p class="screen-subtitle">Quản lý quản trị viên, vai trò, quyền truy cập và cài đặt hệ thống</p>
+          </div>
+
+          <!-- Khu vực 2 cột trên: Quản trị viên & Vai trò & quyền truy cập -->
+          <div class="dashboard-columns system-top-columns">
+            <!-- Cột trái: Quản trị viên -->
+            <div class="card-box system-card-box">
+              <h2 class="card-title">Quản trị viên</h2>
+              <p class="card-sub-description">Tài khoản có quyền vận hành hệ thống</p>
+              <div class="admin-accounts-list" id="sysAdminList">
+                <!-- Render từ script.js -->
+              </div>
+            </div>
+
+            <!-- Cột phải: Vai trò & quyền truy cập -->
+            <div class="card-box system-card-box">
+              <h2 class="card-title">Vai trò &amp; quyền truy cập</h2>
+              <div class="table-responsive">
+                <table class="data-table system-table" id="sysRolesTable">
+                  <thead>
+                    <tr>
+                      <th>Vai trò</th>
+                      <th>Phạm vi quyền</th>
+                      <th>Thao tác</th>
+                    </tr>
+                  </thead>
+                  <tbody id="sysRolesTableBody">
+                    <!-- Render từ script.js -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Khu vực dưới: Cài đặt hệ thống -->
+          <div class="card-box system-settings-box">
+            <h2 class="card-title">Cài đặt hệ thống</h2>
+            <div class="settings-list-table">
+              <div class="settings-row">
+                <div class="settings-col-name"><strong>Quy định đăng tin</strong></div>
+                <div class="settings-col-desc">Tiêu chuẩn nội dung và thời hạn hiển thị</div>
+                <div class="settings-col-status"><span class="badge badge-active">Đang áp dụng</span></div>
+                <div class="settings-col-action">
+                  <button class="btn-action-text" onclick="app.openSettingsModal('rules')">Cấu hình</button>
+                </div>
+              </div>
+              <div class="settings-row">
+                <div class="settings-col-name"><strong>Thông báo</strong></div>
+                <div class="settings-col-desc">Mẫu email và thông báo trong hệ thống</div>
+                <div class="settings-col-status"><span class="badge badge-active">Đang áp dụng</span></div>
+                <div class="settings-col-action">
+                  <button class="btn-action-text" onclick="app.openSettingsModal('notify')">Cấu hình</button>
+                </div>
+              </div>
+              <div class="settings-row">
+                <div class="settings-col-name"><strong>Bảo mật</strong></div>
+                <div class="settings-col-desc">Phiên đăng nhập và xác thực hai bước</div>
+                <div class="settings-col-status"><span class="badge badge-configured">Đã cấu hình</span></div>
+                <div class="settings-col-action">
+                  <button class="btn-action-text" onclick="app.openSettingsModal('security')">Cấu hình</button>
+                </div>
+              </div>
+              <div class="settings-row">
+                <div class="settings-col-name"><strong>Sao lưu dữ liệu</strong></div>
+                <div class="settings-col-desc">Lịch sao lưu và phục hồi dữ liệu</div>
+                <div class="settings-col-status"><span class="badge badge-daily">Hàng ngày</span></div>
+                <div class="settings-col-action">
+                  <button class="btn-action-text" onclick="app.triggerBackup()">Sao lưu ngay</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chân trang Quản trị hệ thống: Nút Thêm quản trị viên & Ghi chú -->
+          <div class="system-footer-actions">
+            <button class="btn btn-primary" id="sysBtnAddAdmin" type="button">＋ Thêm quản trị viên</button>
+            <span class="system-footer-note">Mọi thay đổi được ghi lại trong Nhật ký hoạt động.</span>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ======================================================= -->
+  <!-- MODALS (HỘP THOẠI POPUP CHI TIẾT, XÁC NHẬN, BIỂU MẪU)    -->
+  <!-- ======================================================= -->
+
+  <!-- Modal 1: Chi tiết / Từ chối tin đăng (Màn hình 2) -->
+  <div class="modal-backdrop" id="modPostModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modPostModalTitle">Chi tiết tin đăng</h3>
+        <button class="modal-close-btn" onclick="app.closeModal('modPostModal')">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="post-preview-info">
+          <div class="info-row">
+            <span class="info-label">Tiêu đề:</span>
+            <strong id="modPostDetailTitle">Bàn học gỗ tự nhiên</strong>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Người đăng:</span>
+            <span id="modPostDetailAuthor">Trần Thị Lan</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Danh mục:</span>
+            <span id="modPostDetailCategory">Nội thất</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Ngày gửi:</span>
+            <span id="modPostDetailDate">18/06/2025</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Giá đề xuất:</span>
+            <span id="modPostDetailPrice" class="color-green font-bold">450.000 đ</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Mô tả:</span>
+            <p id="modPostDetailDesc" class="info-desc">Đồ dùng còn mới 90%, thanh lý nhanh do chuyển nhà.</p>
+          </div>
+        </div>
+
+        <!-- Khung nhập lý do nếu là thao tác từ chối -->
+        <div id="modRejectReasonWrap" style="display: none; margin-top: 16px;">
+          <label for="modRejectReasonInput" class="form-label font-bold text-danger">Lý do từ chối tin đăng (*):</label>
+          <textarea id="modRejectReasonInput" class="form-control" rows="3" placeholder="Nhập lý do vi phạm tiêu chuẩn cộng đồng, hình ảnh mờ, thông tin không chính xác..."></textarea>
+          <small class="form-hint">Lý do này sẽ được gửi đến người đăng và lưu vào nhật ký hoạt động.</small>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="app.closeModal('modPostModal')">Đóng</button>
+        <button class="btn btn-danger" id="modBtnConfirmReject" style="display: none;">Xác nhận từ chối</button>
+        <button class="btn btn-primary" id="modBtnModalApprove">Duyệt tin ngay</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 2: Chi tiết & Xử lý báo cáo (Màn hình 3) -->
+  <div class="modal-backdrop" id="repProcessModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title" id="repModalTitle">Xử lý báo cáo</h3>
+        <button class="modal-close-btn" onclick="app.closeModal('repProcessModal')">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="report-meta-box">
+          <div class="info-row">
+            <span class="info-label">Mã báo cáo:</span>
+            <strong id="repModalCode" class="color-dark">#BC-2401</strong>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Nội dung báo cáo:</span>
+            <span id="repModalContent" class="font-bold">Tin đăng sai thông tin</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Người báo cáo:</span>
+            <span id="repModalAuthor">Nguyễn Minh</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Ngày gửi:</span>
+            <span id="repModalDate">18/06/2025</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Mức độ ưu tiên:</span>
+            <span id="repModalSeverityBadge" class="badge">Cao</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Đối tượng bị báo cáo:</span>
+            <span id="repModalTargetUser" class="color-coral">Nguyễn Văn B (Tin đăng #TN-1029)</span>
+          </div>
+        </div>
+
+        <form id="repProcessForm" class="modal-form" onsubmit="return false;">
+          <div class="form-group">
+            <label for="repActionSelect" class="form-label">Chọn hướng xử lý:</label>
+            <select id="repActionSelect" class="form-control">
+              <option value="Đang xử lý">Đang xác minh &amp; xử lý</option>
+              <option value="Đã giải quyết">Đã giải quyết - Ẩn tin &amp; Cảnh cáo người đăng</option>
+              <option value="Đã giải quyết (Không vi phạm)">Đã giải quyết - Báo cáo không căn cứ</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="repProcessNote" class="form-label">Ghi chú xử lý (*):</label>
+            <textarea id="repProcessNote" class="form-control" rows="3" placeholder="Nhập kết quả xử lý, biện pháp áp dụng..."></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="app.closeModal('repProcessModal')">Hủy</button>
+        <button class="btn btn-primary" id="repBtnSaveProcess">Lưu kết quả xử lý</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 3: Thêm / Xem Người dùng (Màn hình 4) -->
+  <div class="modal-backdrop" id="usrFormModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title" id="usrModalTitle">Thêm người dùng mới</h3>
+        <button class="modal-close-btn" onclick="app.closeModal('usrFormModal')">×</button>
+      </div>
+      <div class="modal-body">
+        <form id="usrForm" onsubmit="return false;">
+          <div class="form-group">
+            <label for="usrInputName" class="form-label">Họ tên (*):</label>
+            <input type="text" id="usrInputName" class="form-control" placeholder="Ví dụ: Hoàng Văn Nam" required>
+          </div>
+          <div class="form-group">
+            <label for="usrInputEmail" class="form-label">Email (*):</label>
+            <input type="email" id="usrInputEmail" class="form-control" placeholder="name@email.com" required>
+          </div>
+          <div class="form-group">
+            <label for="usrInputRole" class="form-label">Vai trò (*):</label>
+            <select id="usrInputRole" class="form-control">
+              <option value="Người dùng">Người dùng</option>
+              <option value="Moderator">Moderator</option>
+            </select>
+            <small class="form-hint text-amber">Lưu ý: Không cấp quyền Super Admin từ biểu mẫu người dùng thông thường.</small>
+          </div>
+          <div class="form-group">
+            <label for="usrInputStatus" class="form-label">Trạng thái:</label>
+            <select id="usrInputStatus" class="form-control">
+              <option value="Hoạt động">Hoạt động</option>
+              <option value="Bị khóa">Bị khóa</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="app.closeModal('usrFormModal')">Hủy</button>
+        <button class="btn btn-primary" id="usrBtnSave">Lưu người dùng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 4: Thêm / Sửa Danh mục (Màn hình 5) -->
+  <div class="modal-backdrop" id="catFormModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title" id="catModalTitle">Thêm danh mục mới</h3>
+        <button class="modal-close-btn" onclick="app.closeModal('catFormModal')">×</button>
+      </div>
+      <div class="modal-body">
+        <form id="catForm" onsubmit="return false;">
+          <input type="hidden" id="catEditIndex" value="-1">
+          <div class="form-group">
+            <label for="catInputName" class="form-label">Tên danh mục (*):</label>
+            <input type="text" id="catInputName" class="form-control" placeholder="Ví dụ: Đồ thể thao, Sách..." required>
+          </div>
+          <div class="form-group">
+            <label for="catInputStatus" class="form-label">Trạng thái:</label>
+            <select id="catInputStatus" class="form-control">
+              <option value="Đang hoạt động">Đang hoạt động</option>
+              <option value="Tạm ẩn">Tạm ẩn</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="app.closeModal('catFormModal')">Hủy</button>
+        <button class="btn btn-primary" id="catBtnSave">Lưu danh mục</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 5: Sửa vai trò & Thêm Quản trị viên (Màn hình 8) -->
+  <div class="modal-backdrop" id="sysRoleModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title" id="sysRoleModalTitle">Chỉnh sửa vai trò &amp; quyền</h3>
+        <button class="modal-close-btn" onclick="app.closeModal('sysRoleModal')">×</button>
+      </div>
+      <div class="modal-body">
+        <form id="sysRoleForm" onsubmit="return false;">
+          <input type="hidden" id="sysRoleIndex" value="-1">
+          <div class="form-group">
+            <label for="sysRoleNameInput" class="form-label">Tên vai trò:</label>
+            <input type="text" id="sysRoleNameInput" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="sysRoleScopeInput" class="form-label">Phạm vi quyền truy cập:</label>
+            <input type="text" id="sysRoleScopeInput" class="form-control" placeholder="Ví dụ: Tin đăng, báo cáo, hỗ trợ..." required>
+          </div>
+          <p class="form-hint">Mô phỏng phân quyền phía Frontend. Hệ thống sẽ ghi lại hành động này vào Nhật ký hoạt động.</p>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="app.closeModal('sysRoleModal')">Hủy</button>
+        <button class="btn btn-primary" id="sysBtnSaveRole">Cập nhật quyền</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 6: Thêm Quản trị viên mới (Màn hình 8) -->
+  <div class="modal-backdrop" id="sysAdminModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title">Thêm quản trị viên hệ thống</h3>
+        <button class="modal-close-btn" onclick="app.closeModal('sysAdminModal')">×</button>
+      </div>
+      <div class="modal-body">
+        <form id="sysAdminForm" onsubmit="return false;">
+          <div class="form-group">
+            <label for="sysAdminNameInput" class="form-label">Họ tên quản trị viên (*):</label>
+            <input type="text" id="sysAdminNameInput" class="form-control" placeholder="Ví dụ: Trần Quốc Tuấn" required>
+          </div>
+          <div class="form-group">
+            <label for="sysAdminRoleSelect" class="form-label">Vai trò bổ nhiệm (*):</label>
+            <select id="sysAdminRoleSelect" class="form-control">
+              <option value="Moderator">Moderator (Kiểm duyệt viên)</option>
+              <option value="Nhân viên hỗ trợ">Nhân viên hỗ trợ</option>
+              <option value="Quản trị nội dung">Quản trị nội dung</option>
+            </select>
+            <small class="form-hint text-amber">Chính sách bảo mật: Không cấp quyền Super Admin cho quản trị viên mới tạo.</small>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="app.closeModal('sysAdminModal')">Hủy</button>
+        <button class="btn btn-primary" id="sysBtnSaveAdmin">Thêm quản trị viên</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 7: Cấu hình cài đặt hệ thống (Màn hình 8) -->
+  <div class="modal-backdrop" id="sysSettingsModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title" id="sysSettingsModalTitle">Cấu hình hệ thống</h3>
+        <button class="modal-close-btn" onclick="app.closeModal('sysSettingsModal')">×</button>
+      </div>
+      <div class="modal-body" id="sysSettingsModalContent">
+        <!-- Nội dung cấu hình thay đổi theo từng mục -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="app.closeModal('sysSettingsModal')">Đóng</button>
+        <button class="btn btn-primary" id="sysBtnSaveConfig">Lưu cấu hình</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hộp thông báo nhanh (Toast Container) -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- JavaScript chính -->
+  <script src="script.js"></script>
+</body>
+</html>
+
