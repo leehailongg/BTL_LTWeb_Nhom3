@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#1f7054">
+    <title>ReuseHub - Nền tảng mua bán đồ đã qua sử dụng</title>
+    <link rel="stylesheet" href="seller.css">
+</head>
+
+<body id="top">
+
+    <!-- THANH ĐIỀU HƯỚNG ĐẦU TRANG -->
+    <header class="topbar">
+        <div class="topbar-left">
+            <a class="brand logo" href="#top" data-screen="1" title="ReuseHub">
+                <span class="logo-icon">♻</span>
+                <span class="logo-text">ReuseHub</span>
+            </a>
+
+            <div class="global-search">
+                <span class="search-icon">⌕</span>
+                <input
+                    id="topSearch"
+                    type="search"
+                    placeholder="Tìm kiếm sản phẩm, đơn hàng..."
+                    aria-label="Tìm kiếm sản phẩm toàn trang"
+                >
+            </div>
+        </div>
+
+        <nav class="nav-links" id="mainNav">
+            <a class="nav-link active" href="#dashboard" data-screen="1">
+                <span class="nav-icon">⌂</span>
+                <span>Trang chủ</span>
+            </a>
+
+            <a class="nav-link" href="#products-list" data-screen="7">
+                <span class="nav-icon">♻</span>
+                <span>Sản phẩm</span>
+            </a>
+
+            <a class="nav-link" href="#orders-tracking" data-screen="8">
+                <span class="nav-icon">🛒</span>
+                <span>Theo dõi đơn hàng</span>
+            </a>
+
+            <a class="nav-link" href="#orders-management" data-screen="9">
+                <span class="nav-icon">📋</span>
+                <span>Nhận đơn hàng</span>
+            </a>
+
+            <a class="nav-link" href="#support" data-screen="support">
+                <span>Hỗ trợ</span>
+            </a>
+
+            <!-- Dropdown Vai trò -->
+            <div class="dropdown" style="position:relative; display:inline-block;">
+                <button class="nav-link dropdown-btn" id="sellerRoleBtn" type="button" onclick="const m=document.getElementById('sellerRoleMenu'); m.style.display = m.style.display==='block'?'none':'block';" style="background:none; border:none; cursor:pointer; font:inherit; color:inherit; display:flex; align-items:center; gap:4px; padding:10px 14px;">
+                    <span>Vai trò ▾</span>
+                </button>
+                <div class="dropdown-menu" id="sellerRoleMenu" style="display:none; position:absolute; right:0; top:100%; background:#fff; min-width:180px; box-shadow:0 6px 16px rgba(0,0,0,0.15); border-radius:8px; z-index:1000; padding:8px 0; border:1px solid #e5e7eb;">
+                    <a href="index.html" style="display:block; padding:8px 16px; color:#374151; text-decoration:none; font-size:14px;">🛍️ Người mua</a>
+                    <a href="seller.html" style="display:block; padding:8px 16px; color:#176548; font-weight:600; text-decoration:none; font-size:14px; background:#f0fdf4;">🏪 Người bán (Hiện tại)</a>
+                    <a href="repairer.html" style="display:block; padding:8px 16px; color:#374151; text-decoration:none; font-size:14px;">🔧 Người sửa chữa</a>
+                    <a href="admin.html" style="display:block; padding:8px 16px; color:#374151; text-decoration:none; font-size:14px;">⚙️ Quản trị viên</a>
+                </div>
+            </div>
+
+            <a class="nav-link" href="profile.html">
+                <span class="nav-icon">◉</span>
+                <span>Hồ sơ</span>
+            </a>
+        </nav>
+    </header>
+
+    <!-- THANH ĐIỀU HƯỚNG NHANH 13 MÀN HÌNH THEO TÀI LIỆU PDF
+    <aside class="screen-selector-bar" aria-label="Điều hướng nhanh 13 màn hình PDF">
+        <div class="screen-selector-inner">
+            <span class="screen-selector-label">📄 Chuyển màn hình (1 - 13):</span>
+            <div class="screen-chips">
+                <button type="button" class="chip active" data-screen-btn="1">1. Quản lý bán hàng</button>
+                <button type="button" class="chip" data-screen-btn="2">2. Chi tiết SP (Popup)</button>
+                <button type="button" class="chip" data-screen-btn="3">3. Đăng bán sản phẩm</button>
+                <button type="button" class="chip" data-screen-btn="4">4. Bản nháp (Popup)</button>
+                <button type="button" class="chip" data-screen-btn="5">5. Xác nhận đăng</button>
+                <button type="button" class="chip" data-screen-btn="6">6. Đăng thành công</button>
+                <button type="button" class="chip" data-screen-btn="7">7. SP đang đăng bán</button>
+                <button type="button" class="chip" data-screen-btn="8">8. Theo dõi đơn hàng</button>
+                <button type="button" class="chip" data-screen-btn="9">9. Quản lý & Tiếp nhận đơn</button>
+                <button type="button" class="chip" data-screen-btn="10">10. Đơn mới</button>
+                <button type="button" class="chip" data-screen-btn="11">11. Chờ xác nhận</button>
+                <button type="button" class="chip" data-screen-btn="12">12. Đã xác nhận</button>
+                <button type="button" class="chip" data-screen-btn="13">13. Cần xử lý</button>
+            </div>
+        </div>
+    </aside> -->
+
+    <!-- KHU VỰC CHỨA CÁC MÀN HÌNH CHÍNH (SPA SCREENS) -->
+    <main class="content-container">
+
+        <!-- ========================================================
+             MÀN HÌNH 1: QUẢN LÝ BÁN HÀNG (TỔNG QUAN SELLER DASHBOARD)
+             ======================================================== -->
+        <section class="screen-view active" id="screen-1">
+            <div class="title-row">
+                <div class="title-copy">
+                    <h1>Quản lý bán hàng</h1>
+                    <p class="subtitle">
+                        Theo dõi sản phẩm, đơn hàng và hoạt động bán đồ tái sử dụng của bạn.
+                    </p>
+                </div>
+
+                <div class="title-actions">
+                    <button class="btn" id="btnGoToProducts" type="button" data-screen="7">
+                        Quản lý bán hàng
+                    </button>
+
+                    <button class="btn btn-primary" id="btnOpenPostScreen" type="button" data-screen="3">
+                        ＋ Đăng bán sản phẩm
+                    </button>
+                </div>
+            </div>
+
+            <!-- 6 THẺ THỐNG KÊ SẢN PHẨM -->
+            <section class="stats-grid" aria-label="Thống kê sản phẩm">
+                <article class="stat-card" data-filter-status="all" tabindex="0" role="button" title="Xem tất cả sản phẩm">
+                    <span class="stat-icon all">◉</span>
+                    <div class="stat-data">
+                        <span class="stat-label">Tổng sản phẩm</span>
+                        <strong class="stat-value" id="statTotalProducts">24</strong>
+                        <span class="stat-note">Số liệu mẫu</span>
+                    </div>
+                </article>
+
+                <article class="stat-card" data-filter-status="Đang bán" tabindex="0" role="button" title="Xem sản phẩm đang bán">
+                    <span class="stat-icon live">✓</span>
+                    <div class="stat-data">
+                        <span class="stat-label">Đang bán</span>
+                        <strong class="stat-value" id="statLiveProducts">15</strong>
+                        <span class="stat-note">Số liệu mẫu</span>
+                    </div>
+                </article>
+
+                <article class="stat-card" data-filter-status="Chờ duyệt" tabindex="0" role="button" title="Xem sản phẩm chờ duyệt">
+                    <span class="stat-icon pending">◌</span>
+                    <div class="stat-data">
+                        <span class="stat-label">Chờ duyệt</span>
+                        <strong class="stat-value" id="statPendingProducts">4</strong>
+                        <span class="stat-note">Số liệu mẫu</span>
+                    </div>
+                </article>
+
+                <article class="stat-card" data-filter-status="Chờ lấy hàng" tabindex="0" role="button" title="Xem sản phẩm chờ lấy hàng">
+                    <span class="stat-icon pickup">↗</span>
+                    <div class="stat-data">
+                        <span class="stat-label">Chờ lấy hàng</span>
+                        <strong class="stat-value" id="statPickupProducts">3</strong>
+                        <span class="stat-note">Số liệu mẫu</span>
+                    </div>
+                </article>
+
+                <article class="stat-card" data-filter-status="Đã bán" tabindex="0" role="button" title="Xem sản phẩm đã bán">
+                    <span class="stat-icon sold">▣</span>
+                    <div class="stat-data">
+                        <span class="stat-label">Đã bán</span>
+                        <strong class="stat-value" id="statSoldProducts">8</strong>
+                        <span class="stat-note">Số liệu mẫu</span>
+                    </div>
+                </article>
+
+                <article class="stat-card" data-filter-status="Bị từ chối" tabindex="0" role="button" title="Xem sản phẩm bị từ chối">
+                    <span class="stat-icon rejected">×</span>
+                    <div class="stat-data">
+                        <span class="stat-label">Bị từ chối</span>
+                        <strong class="stat-value" id="statRejectedProducts">2</strong>
+                        <span class="stat-note">Số liệu mẫu</span>
+                    </div>
+                </article>
+            </section>
+
+            <!-- KHU VỰC BIỂU ĐỒ THỐNG KÊ -->
+            <section class="charts-grid">
+                <!-- BIỂU ĐỒ CỘT: SỐ LƯỢNG SẢN PHẨM THEO TRẠNG THÁI -->
+                <article class="panel chart-panel">
+                    <h2 class="chart-heading">
+                        Số lượng sản phẩm · số liệu mẫu
+                    </h2>
+
+                    <div class="legend">
+                        <span class="legend-item">
+                            <i class="legend-dot" style="background:#237456"></i>
+                            Đang bán
+                        </span>
+                        <span class="legend-item">
+                            <i class="legend-dot" style="background:#f7b447"></i>
+                            Chờ duyệt
+                        </span>
+                        <span class="legend-item">
+                            <i class="legend-dot" style="background:#df8941"></i>
+                            Chờ lấy hàng
+                        </span>
+                        <span class="legend-item">
+                            <i class="legend-dot" style="background:#7eaaa1"></i>
+                            Đã bán
+                        </span>
+                    </div>
+
+                    <div class="bar-chart">
+                        <div class="plot-area">
+                            <div class="y-labels">
+                                <span>20</span>
+                                <span>15</span>
+                                <span>10</span>
+                                <span>5</span>
+                                <span>0</span>
+                            </div>
+
+                            <div class="plot-body">
+                                <div class="grid-lines">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+
+                                <div class="bars">
+                                    <div class="bar-wrap">
+                                        <div class="bar live" id="barLive" style="height:75%">
+                                            <span class="bar-tooltip" id="tipLive">15</span>
+                                        </div>
+                                    </div>
+                                    <div class="bar-wrap">
+                                        <div class="bar pending" id="barPending" style="height:20%">
+                                            <span class="bar-tooltip" id="tipPending">4</span>
+                                        </div>
+                                    </div>
+                                    <div class="bar-wrap">
+                                        <div class="bar pickup" id="barPickup" style="height:15%">
+                                            <span class="bar-tooltip" id="tipPickup">3</span>
+                                        </div>
+                                    </div>
+                                    <div class="bar-wrap">
+                                        <div class="bar sold" id="barSold" style="height:40%">
+                                            <span class="bar-tooltip" id="tipSold">8</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="x-labels">
+                            <span>Đang bán</span>
+                            <span>Chờ duyệt</span>
+                            <span>Chờ lấy hàng</span>
+                            <span>Đã bán</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- BIỂU ĐỒ TRÒN VÀ TỔNG HỢP ĐƠN HÀNG -->
+                <article class="panel chart-panel sales-panel">
+                    <h2 class="chart-heading">
+                        Đã bán / tổng sản phẩm
+                    </h2>
+
+                    <div class="sales-content">
+                        <div class="donut-zone">
+                            <svg class="donut-svg" viewBox="0 0 180 180" aria-label="Biểu đồ tỷ lệ đã bán">
+                                <circle class="donut-track" cx="90" cy="90" r="58.5"></circle>
+                                <circle class="donut-sold" id="donutSoldArc" cx="90" cy="90" r="58.5"></circle>
+                            </svg>
+
+                            <div class="donut-label sold" id="donutSoldText">
+                                Đã bán<br><strong>33,3%</strong>
+                            </div>
+
+                            <div class="donut-label remaining" id="donutRemainText">
+                                Còn lại<br><strong>66,7%</strong>
+                            </div>
+                        </div>
+
+                        <div class="orders-summary">
+                            <h3>Đơn hàng theo trạng thái</h3>
+
+                            <div class="order-grid">
+                                <span>Đã xác nhận&nbsp; <strong id="sumConfirmed">12</strong></span>
+                                <span>Chờ lấy&nbsp; <strong id="sumPickup">3</strong></span>
+                                <span>Hoàn tất&nbsp; <strong id="sumCompleted">8</strong></span>
+                                <span>Cần xử lý&nbsp; <strong id="sumUrgent">1</strong></span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </section>
+
+            <!-- HOẠT ĐỘNG GẦN ĐÂY -->
+            <section class="activity-strip" aria-label="Hoạt động gần đây">
+                <h2>Hoạt động gần đây</h2>
+
+                <div class="activity">
+                    <i class="activity-dot"></i>
+                    <div>
+                        <span>Bàn học gỗ được duyệt</span>
+                        <small>Cập nhật hôm nay · số liệu mẫu</small>
+                    </div>
+                </div>
+
+                <div class="activity">
+                    <i class="activity-dot"></i>
+                    <div>
+                        <span>Đơn #RU-1024 vừa xác nhận</span>
+                        <small>15 phút trước · số liệu mẫu</small>
+                    </div>
+                </div>
+
+                <div class="activity">
+                    <i class="activity-dot"></i>
+                    <div>
+                        <span>Điện thoại cũ mới đăng</span>
+                        <small>1 giờ trước · số liệu mẫu</small>
+                    </div>
+                </div>
+            </section>
+
+            <!-- BẢNG QUẢN LÝ SẢN PHẨM TRANG CHỦ -->
+            <section class="products-section">
+                <div class="products-toolbar">
+                    <h2>Quản lý sản phẩm</h2>
+
+                    <div class="table-tools">
+                        <label class="table-search">
+                            <span>⌕</span>
+                            <input id="dashSearch" type="search" placeholder="Tìm sản phẩm...">
+                        </label>
+
+                        <label class="status-select">
+                            <select id="dashStatusFilter">
+                                <option value="all">Trạng thái: Tất cả</option>
+                                <option value="Đang bán">Đang bán</option>
+                                <option value="Chờ duyệt">Chờ duyệt</option>
+                                <option value="Chờ lấy hàng">Chờ lấy hàng</option>
+                                <option value="Đã bán">Đã bán</option>
+                                <option value="Bị từ chối">Bị từ chối</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="table-shell">
+                    <table class="products-table">
+                        <colgroup>
+                            <col class="col-photo">
+                            <col class="col-name">
+                            <col class="col-category">
+                            <col class="col-price">
+                            <col class="col-date">
+                            <col class="col-status">
+                            <col class="col-action">
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>Ảnh</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Danh mục</th>
+                                <th>Giá bán</th>
+                                <th>Ngày đăng</th>
+                                <th>Trạng thái</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dashProductRows">
+                            <!-- Dữ liệu render bằng JavaScript từ Products Store -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </section>
+
+
+        <!-- ========================================================
+             MÀN HÌNH 3: ĐĂNG BÁN SẢN PHẨM (CREATE PRODUCT FORM)
+             ======================================================== -->
+        <section class="screen-view" id="screen-3">
+            <div class="title-row">
+                <div class="title-copy">
+                    <div class="breadcrumb-link" data-screen="1">← Quay về Quản lý bán hàng</div>
+                    <h1>Đăng bán sản phẩm</h1>
+                    <p class="subtitle">
+                        Chia sẻ đồ đã qua sử dụng của bạn để bảo vệ môi trường, giảm rác thải và nhận lại giá trị xứng đáng.
+                    </p>
+                </div>
+
+                <div class="title-actions">
+                    <button class="btn" id="btnViewDraftsTop" type="button">
+                        📂 Xem danh sách bản nháp (<span id="draftCountBadge">2</span>)
+                    </button>
+                    <button class="btn" type="button" data-screen="1">Hủy</button>
+                </div>
+            </div>
+
+            <div class="create-product-layout">
+                <!-- FORM NHẬP THÔNG TIN SẢN PHẨM -->
+                <form class="panel create-form" id="postProductForm" novalidate>
+                    <h2 class="form-section-title">Thông tin cơ bản</h2>
+
+                    <!-- KHU VỰC TẢI ẢNH (TỐI ĐA 6 ẢNH) -->
+                    <div class="form-group">
+                        <label class="form-label required">
+                            Hình ảnh sản phẩm (Tối đa 6 ảnh JPG, PNG)
+                        </label>
+                        <p class="form-hint">
+                            Đăng từ 1 đến 6 ảnh rõ nét thể hiện mọi góc độ và tình trạng thực tế của sản phẩm.
+                        </p>
+
+                        <div class="upload-dropzone" id="uploadDropzone">
+                            <input type="file" id="productImagesInput" accept="image/png, image/jpeg, image/webp" multiple hidden>
+                            <div class="upload-prompt">
+                                <div class="upload-icon">📷</div>
+                                <div class="upload-text">
+                                    <strong>Nhấn để chọn ảnh từ máy tính</strong> hoặc kéo thả ảnh vào đây
+                                </div>
+                                <span class="upload-format">Định dạng JPG, PNG, WebP (Tối đa 5MB / ảnh)</span>
+                            </div>
+                        </div>
+
+                        <!-- KHU VỰC XEM TRƯỚC ẢNH ĐÃ CHỌN -->
+                        <div class="image-previews-grid" id="imagePreviewsGrid">
+                            <!-- Ảnh xem trước sẽ được thêm vào đây -->
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label required" for="formProductName">Tên sản phẩm</label>
+                        <input
+                            type="text"
+                            id="formProductName"
+                            name="name"
+                            class="form-control"
+                            maxlength="80"
+                            placeholder="Ví dụ: Bàn học gỗ sồi tự nhiên, Nồi cơm điện mini..."
+                            required
+                        >
+                        <div class="field-feedback" id="nameFeedback"></div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group flex-1">
+                            <label class="form-label required" for="formProductCategory">Danh mục sản phẩm</label>
+                            <select id="formProductCategory" name="category" class="form-control" required>
+                                <option value="">-- Chọn danh mục --</option>
+                                <option value="Nội thất">Nội thất</option>
+                                <option value="Gia dụng">Gia dụng</option>
+                                <option value="Điện tử">Điện tử</option>
+                                <option value="Phụ kiện">Phụ kiện</option>
+                                <option value="Thời trang">Thời trang</option>
+                                <option value="Sách & VPP">Sách & VPP</option>
+                                <option value="Khác">Khác</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group flex-1">
+                            <label class="form-label required" for="formProductCondition">Tình trạng sản phẩm</label>
+                            <select id="formProductCondition" name="condition" class="form-control" required>
+                                <option value="">-- Chọn tình trạng --</option>
+                                <option value="Mới 99% (Như mới)">Mới 99% (Như mới)</option>
+                                <option value="Đã qua sử dụng (90%)">Đã qua sử dụng (90%)</option>
+                                <option value="Đã qua sử dụng (80%)">Đã qua sử dụng (80%)</option>
+                                <option value="Cũ nhưng còn tốt (70%)">Cũ nhưng còn tốt (70%)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group flex-1">
+                            <label class="form-label required" for="formProductPrice">Giá bán (VNĐ)</label>
+                            <input
+                                type="number"
+                                id="formProductPrice"
+                                name="price"
+                                class="form-control"
+                                min="1000"
+                                step="1000"
+                                placeholder="Ví dụ: 450000"
+                                required
+                            >
+                            <span class="price-preview" id="pricePreviewText">Hiển thị: 0đ</span>
+                            <div class="field-feedback" id="priceFeedback"></div>
+                        </div>
+
+                        <div class="form-group flex-1">
+                            <label class="form-label required" for="formProductLocation">Khu vực / Địa chỉ</label>
+                            <select id="formProductLocation" name="location" class="form-control" required>
+                                <option value="">-- Chọn khu vực --</option>
+                                <option value="Hà Nội - Cầu Giấy">Hà Nội - Cầu Giấy</option>
+                                <option value="Hà Nội - Thanh Xuân">Hà Nội - Thanh Xuân</option>
+                                <option value="Hà Nội - Hai Bà Trưng">Hà Nội - Hai Bà Trưng</option>
+                                <option value="TP. Hồ Chí Minh - Quận 1">TP. Hồ Chí Minh - Quận 1</option>
+                                <option value="TP. Hồ Chí Minh - Quận 7">TP. Hồ Chí Minh - Quận 7</option>
+                                <option value="Đà Nẵng - Hải Châu">Đà Nẵng - Hải Châu</option>
+                                <option value="Cần Thơ - Ninh Kiều">Cần Thơ - Ninh Kiều</option>
+                                <option value="Hải Phòng - Lê Chân">Hải Phòng - Lê Chân</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label required" for="formProductDesc">Mô tả sản phẩm</label>
+                        <textarea
+                            id="formProductDesc"
+                            name="description"
+                            class="form-control"
+                            rows="5"
+                            placeholder="Mô tả chi tiết nguồn gốc, kích thước, công năng và các vết xước nhỏ nếu có..."
+                            required
+                        ></textarea>
+                    </div>
+
+                    <!-- CHECKBOX XÁC NHẬN SẢN PHẨM ĐÚNG MÔ TẢ -->
+                    <div class="form-group agreement-box">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="formProductAgreement" required>
+                            <span>Tôi cam kết sản phẩm đúng như mô tả, không vi phạm chính sách hàng cấm và tuân thủ quy chế hoạt động của ReuseHub.</span>
+                        </label>
+                    </div>
+
+                    <div class="form-actions-row">
+                        <button type="button" class="btn" id="btnSaveDraft">
+                            💾 Lưu bản nháp
+                        </button>
+                        <button type="button" class="btn" id="btnCancelPost" data-screen="1">
+                            Hủy
+                        </button>
+                        <button type="submit" class="btn btn-primary" id="btnSubmitPost">
+                            Đăng bán sản phẩm
+                        </button>
+                    </div>
+                </form>
+
+                <!-- KHU VỰC MẸO ĐĂNG BÁN NHANH BÊN CẠNH -->
+                <aside class="tips-sidebar">
+                    <article class="panel tips-card">
+                        <h3>💡 Mẹo đăng bán nhanh</h3>
+                        <ul class="tips-list">
+                            <li>
+                                <strong>Chụp ảnh đủ ánh sáng:</strong>
+                                Ảnh tự nhiên, rõ góc cạnh giúp người mua tin tưởng và mua nhanh hơn gấp 3 lần.
+                            </li>
+                            <li>
+                                <strong>Mô tả chân thực:</strong>
+                                Nêu rõ năm mua, mức độ sử dụng, các phụ kiện đi kèm hoặc vết xước nhỏ nếu có.
+                            </li>
+                            <li>
+                                <strong>Định giá hợp lý:</strong>
+                                Đồ đã qua sử dụng thường có giá khoảng 40% - 70% giá mua mới tùy độ hao mòn.
+                            </li>
+                            <li>
+                                <strong>Phản hồi tích cực:</strong>
+                                Trả lời tin nhắn người mua trong vòng 15 phút để tăng tỷ lệ chốt đơn thành công.
+                            </li>
+                        </ul>
+                    </article>
+
+                    <article class="panel draft-quick-card">
+                        <div class="draft-quick-header">
+                            <h4>Bản nháp gần đây</h4>
+                            <button type="button" class="btn-link" id="btnOpenDraftModalQuick">Xem tất cả</button>
+                        </div>
+                        <p class="draft-quick-info" id="draftQuickSummary">
+                            Bạn có 2 bản nháp chưa hoàn tất. Nhấn vào để viết tiếp bất kỳ lúc nào.
+                        </p>
+                    </article>
+                </aside>
+            </div>
+        </section>
+
+
+        <!-- ========================================================
+             MÀN HÌNH 7: SẢN PHẨM ĐANG ĐĂNG BÁN (SELLER PRODUCTS LIST)
+             ======================================================== -->
+        <section class="screen-view" id="screen-7">
+            <div class="title-row">
+                <div class="title-copy">
+                    <h1>Sản phẩm đang đăng bán</h1>
+                    <p class="subtitle">
+                        Theo dõi danh sách bài đăng, tình trạng kiểm duyệt và chỉnh sửa thông tin sản phẩm.
+                    </p>
+                </div>
+
+                <div class="title-actions">
+                    <button class="btn btn-primary" type="button" data-screen="3">
+                        ＋ Đăng bán sản phẩm
+                    </button>
+                </div>
+            </div>
+
+            <!-- TABS LỌC TRẠNG THÁI -->
+            <div class="tabs-bar" id="productTabs">
+                <button type="button" class="tab-item active" data-tab="all">
+                    Tất cả sản phẩm (<span id="tabCountAll">6</span>)
+                </button>
+                <button type="button" class="tab-item" data-tab="Chờ duyệt">
+                    Chờ admin duyệt (<span id="tabCountPending">1</span>)
+                </button>
+                <button type="button" class="tab-item" data-tab="Đang bán">
+                    Đang bán (<span id="tabCountLive">2</span>)
+                </button>
+                <button type="button" class="tab-item" data-tab="Bị từ chối">
+                    Bị từ chối (<span id="tabCountRejected">1</span>)
+                </button>
+            </div>
+
+            <!-- THANH TÌM KIẾM VÀ CÔNG CỤ -->
+            <div class="filter-toolbar">
+                <div class="table-search">
+                    <span>⌕</span>
+                    <input type="search" id="productCardSearch" placeholder="Tìm kiếm theo tên sản phẩm, danh mục, khu vực...">
+                </div>
+
+                <div class="filter-right">
+                    <select id="productSortFilter" class="custom-select">
+                        <option value="newest">Mới nhất trước</option>
+                        <option value="price-asc">Giá tăng dần</option>
+                        <option value="price-desc">Giá giảm dần</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- LƯỚI THẺ SẢN PHẨM (CARDS GRID) -->
+            <div class="product-cards-grid" id="productCardsContainer">
+                <!-- Sẽ render động bằng JavaScript -->
+            </div>
+        </section>
+
+
+        <!-- ========================================================
+             MÀN HÌNH 8: THEO DÕI ĐƠN HÀNG (ORDERS TRACKING)
+             ======================================================== -->
+        <section class="screen-view" id="screen-8">
+            <div class="title-row">
+                <div class="title-copy">
+                    <h1>Theo dõi đơn hàng</h1>
+                    <p class="subtitle">
+                        Tra cứu chi tiết tình trạng đơn hàng, lộ trình vận chuyển và thông tin người mua.
+                    </p>
+                </div>
+            </div>
+
+            <!-- 4 THẺ THỐNG KÊ ĐƠN HÀNG -->
+            <section class="stats-grid stats-grid-4" aria-label="Thống kê đơn hàng">
+                <article class="stat-card" data-order-filter="all">
+                    <span class="stat-icon all">🛒</span>
+                    <div class="stat-data">
+                        <span class="stat-label">Tất cả đơn hàng</span>
+                        <strong class="stat-value" id="trackTotalOrders">7</strong>
+                        <span class="stat-note">Đơn mua hàng</span>
+                    </div>
+                </article>
+
+                <article class="stat-card" data-order-filter="Chờ xác nhận">
+                    <span class="stat-icon pending">◷</span>
+                    <div class="stat-data">
+                        <span class="stat-label">Chờ xác nhận</span>
+                        <strong class="stat-value" id="trackPendingConfirm">2</strong>
+                        <span class="stat-note">Cần phản hồi</span>
+                    </div>
+                </article>
+
+                <article class="stat-card" data-order-filter="Đang giao">
+                    <span class="stat-icon pickup">🚚</span>
+                    <div class="stat-data">
+                        <span class="stat-label">Đang giao</span>
+                        <strong class="stat-value" id="trackShipping">1</strong>
+                        <span class="stat-note">Đơn vị vận chuyển</span>
+                    </div>
+                </article>
+
+                <article class="stat-card" data-order-filter="Hoàn tất">
+                    <span class="stat-icon live">✓</span>
+                    <div class="stat-data">
+                        <span class="stat-label">Hoàn tất</span>
+                        <strong class="stat-value" id="trackCompleted">1</strong>
+                        <span class="stat-note">Giao thành công</span>
+                    </div>
+                </article>
+            </section>
+
+            <!-- BẢNG ĐƠN HÀNG -->
+            <section class="panel orders-section">
+                <div class="orders-toolbar">
+                    <label class="table-search">
+                        <span>⌕</span>
+                        <input id="orderSearchInput" type="search" placeholder="Tìm theo mã đơn, tên sản phẩm, người mua...">
+                    </label>
+
+                    <label class="status-select">
+                        <select id="orderStatusSelect">
+                            <option value="all">Tất cả trạng thái</option>
+                            <option value="Đơn mới">Đơn mới</option>
+                            <option value="Chờ xác nhận">Chờ xác nhận</option>
+                            <option value="Đã xác nhận">Đã xác nhận</option>
+                            <option value="Đang giao">Đang giao</option>
+                            <option value="Hoàn tất">Hoàn tất</option>
+                            <option value="Đã hủy">Đã hủy</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div class="table-shell">
+                    <table class="orders-table">
+                        <thead>
+                            <tr>
+                                <th>Mã đơn</th>
+                                <th>Sản phẩm</th>
+                                <th>Người mua</th>
+                                <th>Số điện thoại</th>
+                                <th>Ngày đặt</th>
+                                <th>Tổng tiền</th>
+                                <th>Trạng thái</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ordersTrackingTbody">
+                            <!-- Render bằng JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </section>
+
+
+        <!-- ========================================================
+             MÀN HÌNH 9: QUẢN LÝ VÀ TIẾP NHẬN ĐƠN HÀNG
+             ======================================================== -->
+        <section class="screen-view" id="screen-9">
+            <div class="title-row">
+                <div class="title-copy">
+                    <h1>Quản lý và tiếp nhận đơn hàng</h1>
+                    <p class="subtitle">
+                        Xem và xử lý toàn bộ các đơn đặt mua đồ tái sử dụng từ khách hàng.
+                    </p>
+                </div>
+            </div>
+
+            <!-- CÁC TAB TIẾP NHẬN ĐƠN (LIÊN KẾT ĐẾN MÀN 9, 10, 11, 12, 13) -->
+            <div class="order-subnav-tabs">
+                <button type="button" class="subnav-btn active" data-screen-btn="9">
+                    Tất cả đơn cần xử lý
+                </button>
+                <button type="button" class="subnav-btn" data-screen-btn="10">
+                    Đơn mới (<span id="badgeSubNew">2</span>)
+                </button>
+                <button type="button" class="subnav-btn" data-screen-btn="11">
+                    Chờ xác nhận (<span id="badgeSubPending">2</span>)
+                </button>
+                <button type="button" class="subnav-btn" data-screen-btn="12">
+                    Đã xác nhận (<span id="badgeSubConfirmed">1</span>)
+                </button>
+                <button type="button" class="subnav-btn" data-screen-btn="13">
+                    Cần xử lý gấp (<span id="badgeSubUrgent">3</span>)
+                </button>
+            </div>
+
+            <!-- 4 THẺ THỐNG KÊ QUẢN LÝ ĐƠN HÀNG -->
+            <section class="stats-grid stats-grid-4">
+                <article class="stat-card" data-screen="10" role="button" tabindex="0">
+                    <span class="stat-icon pending">★</span>
+                    <div class="stat-data">
+                        <span class="stat-label">Đơn mới</span>
+                        <strong class="stat-value" id="mgmtStatNew">2</strong>
+                        <span class="stat-note">Cần tiếp nhận</span>
+                    </div>
+                </article>
+
+                <article class="stat-card" data-screen="11" role="button" tabindex="0">
+                    <span class="stat-icon pickup">◷</span>
+                    <div class="stat-data">
+                        <span class="stat-label">Chờ xác nhận</span>
+                        <strong class="stat-value" id="mgmtStatPending">2</strong>
+                        <span class="stat-note">Chờ xác nhận kho</span>
+                    </div>
+                </article>
+
+                <article class="stat-card" data-screen="12" role="button" tabindex="0">
+                    <span class="stat-icon live">✓</span>
+                    <div class="stat-data">
+                        <span class="stat-label">Đã xác nhận</span>
+                        <strong class="stat-value" id="mgmtStatConfirmed">1</strong>
+                        <span class="stat-note">Chờ bàn giao</span>
+                    </div>
+                </article>
+
+                <article class="stat-card" data-screen="13" role="button" tabindex="0">
+                    <span class="stat-icon rejected">!</span>
+                    <div class="stat-data">
+                        <span class="stat-label">Cần xử lý</span>
+                        <strong class="stat-value" id="mgmtStatUrgent">3</strong>
+                        <span class="stat-note">Cần ưu tiên gấp</span>
+                    </div>
+                </article>
+            </section>
+
+            <!-- BẢNG ĐƠN HÀNG TIẾP NHẬN -->
+            <section class="panel orders-section">
+                <div class="orders-toolbar">
+                    <label class="table-search">
+                        <span>⌕</span>
+                        <input id="mgmtSearchInput" type="search" placeholder="Tìm kiếm đơn hàng tiếp nhận...">
+                    </label>
+                </div>
+
+                <div class="table-shell">
+                    <table class="orders-table">
+                        <thead>
+                            <tr>
+                                <th>Mã đơn</th>
+                                <th>Sản phẩm</th>
+                                <th>Người mua</th>
+                                <th>Ngày đặt</th>
+                                <th>Tổng tiền</th>
+                                <th>Trạng thái</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="mgmtOrdersTbody">
+                            <!-- Render bằng JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </section>
+
+
+        <!-- ========================================================
+             MÀN HÌNH 10: ĐƠN MỚI
+             ======================================================== -->
+        <section class="screen-view" id="screen-10">
+            <div class="title-row">
+                <div class="title-copy">
+                    <div class="breadcrumb-link" data-screen="9">← Quay về Quản lý đơn hàng</div>
+                    <h1>Đơn mới</h1>
+                    <p class="subtitle">
+                        Danh sách các đơn hàng mới phát sinh từ người mua cần bạn tiếp nhận và chuẩn bị hàng.
+                    </p>
+                </div>
+            </div>
+
+            <!-- CÁC THẺ THỐNG KÊ TRẠNG THÁI ĐƠN HÀNG -->
+            <section class="stats-grid stats-grid-4">
+                <article class="stat-card active-card">
+                    <span class="stat-icon pending">★</span>
+                    <div class="stat-data">
+                        <span class="stat-label">Đơn mới</span>
+                        <strong class="stat-value" id="screen10StatNew">2</strong>
+                        <span class="stat-note">Cần tiếp nhận</span>
+                    </div>
+                </article>
+                <article class="stat-card" data-screen="11" role="button" tabindex="0">
+                    <span class="stat-icon pickup">◷</span>
+                    <div class="stat-data">
+                        <span class="stat-label">Chờ xác nhận</span>
+                        <strong class="stat-value" id="screen10StatPending">2</strong>
+                        <span class="stat-note">Xem chi tiết</span>
+                    </div>
+                </article>
+                <article class="stat-card" data-screen="12" role="button" tabindex="0">
+                    <span class="stat-icon live">✓</span>
+                    <div class="stat-data">
+                        <span class="stat-label">Đã xác nhận</span>
+                        <strong class="stat-value" id="screen10StatConfirmed">1</strong>
+                        <span class="stat-note">Xem chi tiết</span>
+                    </div>
+                </article>
+                <article class="stat-card" data-screen="13" role="button" tabindex="0">
+                    <span class="stat-icon rejected">!</span>
+                    <div class="stat-data">
+                        <span class="stat-label">Cần xử lý</span>
+                        <strong class="stat-value" id="screen10StatUrgent">3</strong>
+                        <span class="stat-note">Xem chi tiết</span>
+                    </div>
+                </article>
+            </section>
+
+            <section class="panel orders-section">
+                <div class="orders-toolbar">
+                    <label class="table-search">
+                        <span>⌕</span>
+                        <input id="screen10Search" type="search" placeholder="Tìm đơn mới...">
+                    </label>
+                </div>
+
+                <div class="table-shell">
+                    <table class="orders-table">
+                        <thead>
+                            <tr>
+                                <th>Mã đơn</th>
+                                <th>Sản phẩm</th>
+                                <th>Người mua</th>
+                                <th>Số điện thoại</th>
+                                <th>Ngày đặt</th>
+                                <th>Tổng tiền</th>
+                                <th>Trạng thái</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="screen10Tbody">
+                            <!-- Render bằng JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </section>
+
+
+        <!-- ========================================================
+             MÀN HÌNH 11: CHỜ XÁC NHẬN
+             ======================================================== -->
+        <section class="screen-view" id="screen-11">
+            <div class="title-row">
+                <div class="title-copy">
+                    <div class="breadcrumb-link" data-screen="9">← Quay về Quản lý đơn hàng</div>
+                    <h1>Chờ xác nhận</h1>
+                    <p class="subtitle">
+                        Các đơn hàng đã tiếp nhận đang chờ bạn xác nhận tình trạng sản phẩm còn trong kho và sẵn sàng giao.
+                    </p>
+                </div>
+            </div>
+
+            <!-- CÁC THẺ THỐNG KÊ TRẠNG THÁI ĐƠN HÀNG -->
+            <section class="stats-grid stats-grid-4">
+                <article class="stat-card" data-screen="10" role="button" tabindex="0">
+                    <span class="stat-icon pending">★</span>
+                    <div class="stat-data">
+                        <span class="stat-label">Đơn mới</span>
+                        <strong class="stat-value" id="screen11StatNew">2</strong>
+                        <span class="stat-note">Xem chi tiết</span>
+                    </div>
+                </article>
+                <article class="stat-card active-card">
+                    <span class="stat-icon pickup">◷</span>
+                    <div class="stat-data">
+                        <span class="stat-label">Chờ xác nhận</span>
+                        <strong class="stat-value" id="screen11StatPending">2</strong>
+                        <span class="stat-note">Cần phản hồi</span>
+                    </div>
+                </article>
+                <article class="stat-card" data-screen="12" role="button" tabindex="0">
+                    <span class="stat-icon live">✓</span>
+                    <div class="stat-data">
+                        <span class="stat-label">Đã xác nhận</span>
+                        <strong class="stat-value" id="screen11StatConfirmed">1</strong>
+                        <span class="stat-note">Xem chi tiết</span>
+                    </div>
+                </article>
+                <article class="stat-card" data-screen="13" role="button" tabindex="0">
+                    <span class="stat-icon rejected">!</span>
+                    <div class="stat-data">
+                        <span class="stat-label">Cần xử lý</span>
+                        <strong class="stat-value" id="screen11StatUrgent">3</strong>
+                        <span class="stat-note">Xem chi tiết</span>
+                    </div>
+                </article>
+            </section>
+
+            <section class="panel orders-section">
+                <div class="orders-toolbar">
+                    <label class="table-search">
+                        <span>⌕</span>
+                        <input id="screen11Search" type="search" placeholder="Tìm đơn chờ xác nhận...">
+                    </label>
+                </div>
+
+                <div class="table-shell">
+                    <table class="orders-table">
+                        <thead>
+                            <tr>
+                                <th>Mã đơn</th>
+                                <th>Sản phẩm</th>
+                                <th>Người mua</th>
+                                <th>Số điện thoại</th>
+                                <th>Ngày đặt</th>
+                                <th>Tổng tiền</th>
+                                <th>Trạng thái</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="screen11Tbody">
+                            <!-- Render bằng JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </section>
+
+
+        <!-- ========================================================
+             MÀN HÌNH 12: ĐÃ XÁC NHẬN
+             ======================================================== -->
+        <section class="screen-view" id="screen-12">
+            <div class="title-row">
+                <div class="title-copy">
+                    <div class="breadcrumb-link" data-screen="9">← Quay về Quản lý đơn hàng</div>
+                    <h1>Đã xác nhận</h1>
+                    <p class="subtitle">
+                        Đơn hàng đã được xác nhận thành công và đang chờ đóng gói để bàn giao cho người mua hoặc shipper.
+                    </p>
+                </div>
+            </div>
+
+            <!-- CÁC THẺ THỐNG KÊ TRẠNG THÁI ĐƠN HÀNG -->
+            <section class="stats-grid stats-grid-4">
+                <article class="stat-card" data-screen="10" role="button" tabindex="0">
+                    <span class="stat-icon pending">★</span>
+                    <div class="stat-data">
+                        <span class="stat-label">Đơn mới</span>
+                        <strong class="stat-value" id="screen12StatNew">2</strong>
+                        <span class="stat-note">Xem chi tiết</span>
+                    </div>
+                </article>
+                <article class="stat-card" data-screen="11" role="button" tabindex="0">
+                    <span class="stat-icon pickup">◷</span>
+                    <div class="stat-data">
+                        <span class="stat-label">Chờ xác nhận</span>
+                        <strong class="stat-value" id="screen12StatPending">2</strong>
+                        <span class="stat-note">Xem chi tiết</span>
+                    </div>
+                </article>
+                <article class="stat-card active-card">
+                    <span class="stat-icon live">✓</span>
+                    <div class="stat-data">
+                        <span class="stat-label">Đã xác nhận</span>
+                        <strong class="stat-value" id="screen12StatConfirmed">1</strong>
+                        <span class="stat-note">Chờ giao hàng</span>
+                    </div>
+                </article>
+                <article class="stat-card" data-screen="13" role="button" tabindex="0">
+                    <span class="stat-icon rejected">!</span>
+                    <div class="stat-data">
+                        <span class="stat-label">Cần xử lý</span>
+                        <strong class="stat-value" id="screen12StatUrgent">3</strong>
+                        <span class="stat-note">Xem chi tiết</span>
+                    </div>
+                </article>
+            </section>
+
+            <section class="panel orders-section">
+                <div class="orders-toolbar">
+                    <label class="table-search">
+                        <span>⌕</span>
+                        <input id="screen12Search" type="search" placeholder="Tìm đơn đã xác nhận...">
+                    </label>
+                </div>
+
+                <div class="table-shell">
+                    <table class="orders-table">
+                        <thead>
+                            <tr>
+                                <th>Mã đơn</th>
+                                <th>Sản phẩm</th>
+                                <th>Người mua</th>
+                                <th>Số điện thoại</th>
+                                <th>Ngày đặt</th>
+                                <th>Tổng tiền</th>
+                                <th>Trạng thái</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="screen12Tbody">
+                            <!-- Render bằng JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </section>
+
+
+        <!-- ========================================================
+             MÀN HÌNH 13: CẦN XỬ LÝ (URGENT ORDERS)
+             ======================================================== -->
+        <section class="screen-view" id="screen-13">
+            <div class="title-row">
+                <div class="title-copy">
+                    <div class="breadcrumb-link" data-screen="9">← Quay về Quản lý đơn hàng</div>
+                    <h1>Cần xử lý</h1>
+                    <p class="subtitle">
+                        Các đơn hàng cần người bán xử lý sớm để đảm bảo thời gian cam kết giao hàng và trải nghiệm mua sắm tốt nhất.
+                    </p>
+                </div>
+            </div>
+
+            <!-- CÁC THẺ THỐNG KÊ TRẠNG THÁI ĐƠN HÀNG -->
+            <section class="stats-grid stats-grid-4">
+                <article class="stat-card" data-screen="10" role="button" tabindex="0">
+                    <span class="stat-icon pending">★</span>
+                    <div class="stat-data">
+                        <span class="stat-label">Đơn mới</span>
+                        <strong class="stat-value" id="screen13StatNew">2</strong>
+                        <span class="stat-note">Xem chi tiết</span>
+                    </div>
+                </article>
+                <article class="stat-card" data-screen="11" role="button" tabindex="0">
+                    <span class="stat-icon pickup">◷</span>
+                    <div class="stat-data">
+                        <span class="stat-label">Chờ xác nhận</span>
+                        <strong class="stat-value" id="screen13StatPending">2</strong>
+                        <span class="stat-note">Xem chi tiết</span>
+                    </div>
+                </article>
+                <article class="stat-card" data-screen="12" role="button" tabindex="0">
+                    <span class="stat-icon live">✓</span>
+                    <div class="stat-data">
+                        <span class="stat-label">Đã xác nhận</span>
+                        <strong class="stat-value" id="screen13StatConfirmed">1</strong>
+                        <span class="stat-note">Xem chi tiết</span>
+                    </div>
+                </article>
+                <article class="stat-card active-card urgent-card">
+                    <span class="stat-icon rejected">!</span>
+                    <div class="stat-data">
+                        <span class="stat-label">Cần xử lý</span>
+                        <strong class="stat-value" id="screen13StatUrgent">3</strong>
+                        <span class="stat-note">Ưu tiên xử lý</span>
+                    </div>
+                </article>
+            </section>
+
+            <section class="panel orders-section">
+                <div class="orders-toolbar">
+                    <label class="table-search">
+                        <span>⌕</span>
+                        <input id="screen13Search" type="search" placeholder="Tìm đơn hàng cần xử lý sớm...">
+                    </label>
+                </div>
+
+                <div class="table-shell">
+                    <table class="orders-table">
+                        <thead>
+                            <tr>
+                                <th>Mã đơn</th>
+                                <th>Sản phẩm</th>
+                                <th>Người mua</th>
+                                <th>Số điện thoại</th>
+                                <th>Ngày đặt</th>
+                                <th>Tổng tiền</th>
+                                <th>Mức độ ưu tiên</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="screen13Tbody">
+                            <!-- Render bằng JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </section>
+
+
+        <!-- CÁC TRANG PHỤ TRỢ (SECONDARY SCREENS) -->
+        <section class="screen-view" id="screen-support">
+            <h1>Trung tâm hỗ trợ người bán</h1>
+            <p class="subtitle">Giải đáp thắc mắc và gửi yêu cầu hỗ trợ kỹ thuật đến ban quản trị ReuseHub.</p>
+            <div class="panel page-card">
+                <form id="supportForm" class="page-form">
+                    <label for="supEmail">Email của bạn</label>
+                    <input id="supEmail" type="email" placeholder="seller@reusehub.vn" required>
+
+                    <label for="supSubject">Chủ đề hỗ trợ</label>
+                    <select id="supSubject" class="form-control" required>
+                        <option value="Duyệt bài đăng">Thắc mắc về duyệt tin đăng</option>
+                        <option value="Giao nhận đơn hàng">Hỗ trợ vận chuyển & Giao nhận</option>
+                        <option value="Thanh toán">Thanh toán & Ví tiền người bán</option>
+                        <option value="Khác">Vấn đề khác</option>
+                    </select>
+
+                    <label for="supMsg">Nội dung chi tiết</label>
+                    <textarea id="supMsg" rows="4" placeholder="Nhập câu hỏi hoặc mô tả vấn đề..." required></textarea>
+
+                    <button type="submit" class="btn btn-primary">Gửi yêu cầu hỗ trợ</button>
+                </form>
+            </div>
+        </section>
+
+        <section class="screen-view" id="screen-role">
+            <h1>Lựa chọn vai trò</h1>
+            <p class="subtitle">Chuyển đổi trải nghiệm người dùng trên nền tảng ReuseHub.</p>
+            <div class="role-grid">
+                <article class="panel page-card">
+                    <div class="big-icon">🛍️</div>
+                    <h2>Người mua (Buyer)</h2>
+                    <p>Khám phá kho đồ cũ phong phú, đặt mua sản phẩm và thanh toán tiện lợi.</p>
+                    <a href="index.html" class="btn" style="text-decoration:none; display:inline-block; text-align:center;">
+                        Chuyển sang Người mua
+                    </a>
+                </article>
+
+                <article class="panel page-card active-role">
+                    <div class="big-icon">🏪</div>
+                    <h2>Người bán (Seller)</h2>
+                    <p>Quản lý tin đăng bán, xử lý đơn đặt hàng và theo dõi chỉ số kinh doanh tái sử dụng.</p>
+                    <button class="btn btn-primary" type="button" data-screen="1">
+                        ✓ Đang hoạt động
+                    </button>
+                </article>
+
+                <article class="panel page-card">
+                    <div class="big-icon">⚙️</div>
+                    <h2>Quản trị viên (Admin)</h2>
+                    <p>Kiểm duyệt tin đăng, xử lý báo cáo vi phạm và quản trị người dùng.</p>
+                    <a href="C:/Users/ADMIN/Downloads/ReUseHub/admin.html" class="btn" style="text-decoration:none; display:inline-block; text-align:center;">
+                        Chuyển sang Quản trị viên
+                    </a>
+                </article>
+            </div>
+        </section>
+
+        <section class="screen-view" id="screen-profile">
+            <h1>Hồ sơ cá nhân & Cửa hàng</h1>
+            <p class="subtitle">Quản lý thông tin tài khoản người bán và địa chỉ lấy hàng.</p>
+            <div class="panel page-card">
+                <form id="profileForm" class="page-form">
+                    <label for="profShop">Tên cửa hàng / Người bán</label>
+                    <input id="profShop" value="ReuseHub Eco Shop" required>
+
+                    <label for="profPhone">Số điện thoại liên hệ</label>
+                    <input id="profPhone" value="0912 345 678" required>
+
+                    <label for="profAddress">Địa chỉ kho lấy hàng</label>
+                    <input id="profAddress" value="Số 18, Ngõ 86 Cầu Giấy, Hà Nội" required>
+
+                    <button type="submit" class="btn btn-primary">Cập nhật hồ sơ</button>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- ========================================================
+         MÀN HÌNH 2: CHI TIẾT SẢN PHẨM (DETAIL MODAL / PANEL)
+         ======================================================== -->
+    <dialog id="detailDialog" class="app-dialog">
+        <div class="dialog-header">
+            <h2>Chi tiết sản phẩm</h2>
+            <button class="icon-close" type="button" data-close="detailDialog" aria-label="Đóng cửa sổ">×</button>
+        </div>
+
+        <div class="dialog-body">
+            <div class="detail-product-layout">
+                <div class="detail-media">
+                    <div class="detail-photo-box" id="detailProductPhoto">🪑</div>
+                    <span class="status-pill live" id="detailStatusPill">Đang bán</span>
+                </div>
+
+                <div class="detail-info-pane">
+                    <h3 class="detail-title" id="detailName">Bàn học gỗ</h3>
+                    <div class="detail-price-tag" id="detailPrice">450.000đ</div>
+
+                    <dl class="detail-list">
+                        <dt>Danh mục:</dt>
+                        <dd id="detailCategory">Nội thất</dd>
+
+                        <dt>Tình trạng:</dt>
+                        <dd id="detailCondition">Đã qua sử dụng (90%)</dd>
+
+                        <dt>Khu vực:</dt>
+                        <dd id="detailLocation">Hà Nội - Cầu Giấy</dd>
+
+                        <dt>Ngày đăng:</dt>
+                        <dd id="detailDate">12/06/2024</dd>
+
+                        <dt>Trạng thái kiểm duyệt:</dt>
+                        <dd id="detailStatusText">Đang bán trên hệ thống</dd>
+                    </dl>
+
+                    <div class="detail-desc-box">
+                        <strong>Mô tả chi tiết:</strong>
+                        <p id="detailDesc">Bàn học gỗ tự nhiên, chắc chắn, mặt bàn bóng đẹp không trầy xước nhiều, phù hợp cho học sinh, sinh viên.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dialog-actions" style="display:flex; justify-content:flex-end; gap:8px;">
+                <button class="btn btn-primary" id="btnModalApproveProd" type="button" style="background:#0d5c46; display:none;">✔ Duyệt đơn</button>
+                <button class="btn" type="button" data-close="detailDialog">
+                    Đóng cửa sổ
+                </button>
+            </div>
+        </div>
+    </dialog>
+
+
+    <!-- ========================================================
+         MÀN HÌNH 4: DANH SÁCH BẢN NHÁP (DRAFTS MODAL)
+         ======================================================== -->
+    <dialog id="draftsDialog" class="app-dialog modal-lg">
+        <div class="dialog-header">
+            <h2>Danh sách bản nháp sản phẩm</h2>
+            <button class="icon-close" type="button" data-close="draftsDialog" aria-label="Đóng bản nháp">×</button>
+        </div>
+
+        <div class="dialog-body">
+            <div class="draft-guide-alert">
+                <span class="guide-icon">💡</span>
+                <div>
+                    <strong>Hướng dẫn lưu và hoàn thiện bài đăng:</strong>
+                    <p>
+                        Bạn có thể nhấn "Lưu bản nháp" bất cứ lúc nào trong khi điền biểu mẫu. Bản nháp được lưu trên máy của bạn để tiếp tục hoàn thiện bất cứ lúc nào mà không sợ mất dữ liệu.
+                    </p>
+                </div>
+            </div>
+
+            <div class="drafts-list" id="draftsListContainer">
+                <!-- Danh sách bản nháp render bằng JavaScript -->
+            </div>
+
+            <div class="dialog-actions">
+                <button class="btn" type="button" data-close="draftsDialog">Đóng</button>
+            </div>
+        </div>
+    </dialog>
+
+
+    <!-- ========================================================
+         MÀN HÌNH 5: XÁC NHẬN ĐĂNG SẢN PHẨM (CONFIRMATION MODAL)
+         ======================================================== -->
+    <dialog id="confirmPostDialog" class="app-dialog modal-center">
+        <div class="dialog-header">
+            <h2>Xác nhận đăng sản phẩm</h2>
+            <button class="icon-close" type="button" data-close="confirmPostDialog" aria-label="Đóng">×</button>
+        </div>
+
+        <div class="dialog-body text-center">
+            <div class="confirm-icon">❓</div>
+            <h3 class="confirm-title">Bạn có chắc chắn muốn đăng sản phẩm?</h3>
+            <p class="confirm-message">
+                Thông tin sản phẩm sẽ được gửi đi để ban quản trị kiểm duyệt tính hợp lệ trước khi hiển thị công khai trên nền tảng ReuseHub.
+            </p>
+
+            <div class="confirm-preview-box" id="confirmPreviewBox">
+                <!-- Hiển thị tóm tắt tên, danh mục và giá -->
+            </div>
+
+            <div class="dialog-actions justify-center">
+                <button class="btn" type="button" data-close="confirmPostDialog" id="btnConfirmNo">
+                    Không
+                </button>
+                <button class="btn btn-primary" type="button" id="btnConfirmYes">
+                    Có, đăng sản phẩm
+                </button>
+            </div>
+        </div>
+    </dialog>
+
+
+    <!-- ========================================================
+         MÀN HÌNH 6: ĐĂNG SẢN PHẨM THÀNH CÔNG (SUCCESS MODAL)
+         ======================================================== -->
+    <dialog id="successPostDialog" class="app-dialog modal-center">
+        <div class="dialog-body text-center success-body">
+            <div class="success-icon-badge">✓</div>
+            <h2 class="success-title">Đăng sản phẩm thành công!</h2>
+            <p class="success-subtitle">
+                Sản phẩm của bạn đã được đăng bán thành công.
+            </p>
+            <p class="success-note">
+                Trạng thái hiện tại: <strong>Chờ admin duyệt</strong>. Sản phẩm đã được bổ sung vào danh sách và số liệu thống kê đã được làm mới.
+            </p>
+
+            <div class="dialog-actions justify-center">
+                <button class="btn btn-primary" type="button" id="btnSuccessGoHome" data-screen="1">
+                    Quản lý bán hàng
+                </button>
+                <button class="btn" type="button" id="btnSuccessGoList" data-screen="7">
+                    Xem danh sách sản phẩm
+                </button>
+            </div>
+        </div>
+    </dialog>
+
+
+    <!-- MODAL XEM LÝ DO TỪ CHỐI & GỬI DUYỆT LẠI (TRANG 7) -->
+    <dialog id="rejectReasonDialog" class="app-dialog modal-center">
+        <div class="dialog-header">
+            <h2>Lý do bài đăng bị từ chối</h2>
+            <button class="icon-close" type="button" data-close="rejectReasonDialog">×</button>
+        </div>
+        <div class="dialog-body">
+            <div class="reject-reason-box">
+                <div class="reject-reason-icon">⚠️</div>
+                <div>
+                    <h4 id="rejectReasonTitle">Máy xay sinh tố</h4>
+                    <p id="rejectReasonContent">
+                        Hình ảnh chụp bị mờ, không nhìn rõ nhãn mác thông số kỹ thuật và thiếu ảnh phụ kiện đi kèm. Vui lòng chụp lại ảnh rõ nét dưới ánh sáng tự nhiên.
+                    </p>
+                </div>
+            </div>
+
+            <div class="dialog-actions">
+                <button class="btn" type="button" data-close="rejectReasonDialog">Đóng</button>
+                <button class="btn btn-primary" type="button" id="btnResubmitAudit">
+                    Gửi duyệt lại ngay
+                </button>
+            </div>
+        </div>
+    </dialog>
+
+
+    <!-- MODAL XEM CHI TIẾT ĐƠN HÀNG (TRANG 8 - 13) -->
+    <dialog id="orderDetailDialog" class="app-dialog modal-lg">
+        <div class="dialog-header">
+            <h2>Chi tiết đơn hàng #<span id="orderModalCode">DH00012</span></h2>
+            <button class="icon-close" type="button" data-close="orderDetailDialog">×</button>
+        </div>
+        <div class="dialog-body">
+            <div class="order-detail-grid">
+                <div class="order-col">
+                    <h4>Thông tin người nhận</h4>
+                    <dl class="order-meta-list">
+                        <dt>Họ và tên:</dt>
+                        <dd id="orderBuyerName">—</dd>
+
+                        <dt>Số điện thoại:</dt>
+                        <dd id="orderBuyerPhone">—</dd>
+
+                        <dt>Địa chỉ nhận hàng:</dt>
+                        <dd id="orderBuyerAddress">—</dd>
+
+                        <dt>Ngày đặt:</dt>
+                        <dd id="orderDatePlaced">—</dd>
+                    </dl>
+                </div>
+
+                <div class="order-col">
+                    <h4>Thông tin sản phẩm & Thanh toán</h4>
+                    <dl class="order-meta-list">
+                        <dt>Sản phẩm:</dt>
+                        <dd id="orderProductName">—</dd>
+
+                        <dt>Đơn giá:</dt>
+                        <dd id="orderProductPrice">—</dd>
+
+                        <dt>Hình thức thanh toán:</dt>
+                        <dd>Thanh toán khi nhận hàng (COD)</dd>
+
+                        <dt>Trạng thái đơn hàng:</dt>
+                        <dd><span class="status-pill" id="orderStatusPill">—</span></dd>
+                    </dl>
+                </div>
+            </div>
+
+            <div class="order-progress-track">
+                <h4>Tiến trình đơn hàng</h4>
+                <div class="step-tracker" id="orderStepTracker">
+                    <div class="step-point step-done" id="stepPoint1">1. Đơn mới</div>
+                    <div class="step-point" id="stepPoint2">2. Chờ xác nhận</div>
+                    <div class="step-point" id="stepPoint3">3. Đã xác nhận</div>
+                    <div class="step-point" id="stepPoint4">4. Đang giao</div>
+                    <div class="step-point" id="stepPoint5">5. Hoàn tất</div>
+                </div>
+            </div>
+
+            <div class="dialog-actions" style="display:flex; justify-content:flex-end; gap:8px;">
+                <button class="btn btn-primary" id="btnModalApproveOrder" type="button" style="background:#0d5c46; display:none;">✔ Duyệt đơn</button>
+                <button class="btn btn-outline" type="button" data-close="orderDetailDialog">Đóng</button>
+            </div>
+        </div>
+    </dialog>
+
+
+    <!-- MODAL XÁC NHẬN TỪ CHỐI ĐƠN HÀNG -->
+    <dialog id="confirmRejectOrderDialog" class="app-dialog modal-center">
+        <div class="dialog-header">
+            <h2>Xác nhận từ chối đơn hàng</h2>
+            <button class="icon-close" type="button" data-close="confirmRejectOrderDialog">×</button>
+        </div>
+        <div class="dialog-body text-center">
+            <div class="confirm-icon danger-icon">✕</div>
+            <h3>Bạn có chắc chắn muốn từ chối đơn hàng này?</h3>
+            <p>
+                Đơn hàng sẽ được chuyển sang trạng thái <strong>Đã hủy</strong>. Người mua sẽ nhận được thông báo hủy đơn.
+            </p>
+
+            <div class="form-group text-left" style="margin-top:16px;">
+                <label for="rejectOrderReasonSelect" class="form-label required">Lý do từ chối:</label>
+                <select id="rejectOrderReasonSelect" class="form-control">
+                    <option value="Hết hàng">Sản phẩm đã bán tại kênh khác</option>
+                    <option value="Sản phẩm lỗi">Sản phẩm phát hiện lỗi trước khi gửi</option>
+                    <option value="Người mua yêu cầu">Người mua liên hệ xin hủy đơn</option>
+                    <option value="Địa chỉ không phù hợp">Không hỗ trợ giao tới địa chỉ này</option>
+                </select>
+            </div>
+
+            <div class="dialog-actions justify-center">
+                <button class="btn" type="button" data-close="confirmRejectOrderDialog">Quay lại</button>
+                <button class="btn btn-danger" type="button" id="btnExecuteRejectOrder">Xác nhận từ chối</button>
+            </div>
+        </div>
+    </dialog>
+
+
+    <!-- TOAST NOTIFICATION -->
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <!-- SCRIPT CHÍNH -->
+    <script src="seller.js"></script>
+</body>
+</html>
+
