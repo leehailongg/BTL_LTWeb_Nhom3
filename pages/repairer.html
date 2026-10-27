@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sửa chữa đơn hàng - ReUseHub</title>
+  
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3C9 3 4 8.5 4 15.5c0 6.5 5 11.5 12 11.5 3 0 5.5-1 7-2.5-1-1.5-1.5-3-1.5-5 0-4 3-7 7-7 .5 0 1 .1 1.5.2C29.5 8 23.5 3 16 3z' fill='%23164e32'/%3E%3Cpath d='M8 22c-2 2-3 4-3 5 1 0 3-1 5-3-1-.5-1.5-1.2-2-2z' fill='%2352796f'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Chỉ sử dụng 1 file CSS cho trang người sửa chữa -->
+  <link rel="stylesheet" href="repairer.css">
+</head>
+<body class="repair-page-body">
+
+  <!-- ======================================================================
+       1. THANH ĐIỀU HƯỚNG TRÊN CÙNG (Header Navigation Bar)
+       ====================================================================== -->
+  
+<header class="header">
+  <div class="header-container">
+
+    <!-- Logo -->
+    <a href="index.html" class="logo">
+      <span class="logo-icon">♻</span>
+      <span class="logo-text">ReuseHub</span>
+    </a>
+
+    <!-- Tìm kiếm -->
+    <div class="header-search">
+      <span class="search-icon">🔍</span>
+      <input
+        type="text"
+        placeholder="Tìm kiếm đơn hàng, món đồ, người đăng..."
+        aria-label="Tìm kiếm trên hệ thống"
+      >
+    </div>
+
+    <!-- Menu điều hướng -->
+    <nav class="nav-menu" id="repairNavMenu">
+
+      <a href="index.html" class="nav-link">
+        <span>🏠</span> Trang chủ
+      </a>
+
+      <a href="repairer.html" class="nav-link ">
+        <span>🔧</span> Sửa chữa 
+      </a>
+
+      <a href="#" class="nav-link"
+         onclick="showToast('Giỏ hàng', 'Giỏ hàng phụ tùng hiện đang trống.', 'info'); return false;">
+        <span>🛒</span> Giỏ hàng
+      </a>
+
+      <a href="#" class="nav-link"
+         onclick="showToast('Theo dõi đơn hàng', 'Bạn đang theo dõi 1 đơn hàng sửa chữa đang xử lý.', 'info'); return false;">
+        Theo dõi đơn hàng
+      </a>
+
+      <!-- Chọn vai trò -->
+      <div class="dropdown">
+        <button type="button" class="dropdown-btn" id="roleDropdownBtn"
+                aria-expanded="false">
+          Vai trò ▾
+        </button>
+
+        <div class="dropdown-menu" id="roleDropdownMenu">
+          <a href="repairer.html" class="role-item">
+            🔧 Người sửa chữa (Hiện Tại)
+          </a>
+          <a href="index.html" class="role-item">
+          🛍️  Người mua
+          </a>
+          <a href="seller.html" class="role-item">
+           🏪 Người bán
+          </a>
+          <a href="admin.html" class="role-item">
+           ⚙️ Quản trị viên
+          </a>
+        </div>
+      </div>
+
+      <!-- Hồ sơ -->
+      <a href="profile.html" class="nav-link"
+         
+             class="user-avatar-mini">
+        Hồ sơ
+      </a>
+
+    </nav>
+
+    <!-- Nút menu trên màn hình nhỏ -->
+    <button type="button" class="nav-mobile-toggle"
+            id="navMobileToggle" aria-label="Mở menu">
+      ☰
+    </button>
+
+  </div>
+</header>
+
+
+  <!-- ======================================================================
+       KHUNG NỘI DUNG CHÍNH (Main Container)
+       ====================================================================== -->
+  <main class="repair-main-container">
+
+    <!-- KHỐI GIỚI THIỆU CHẾ ĐỘ NGƯỜI SỬA CHỮA (DÙNG CHUNG CẢ 2 VIEW) -->
+    <section class="repair-mode-banner" aria-label="Chế độ làm việc hiện tại">
+      <div class="mode-banner-left">
+        <div class="mode-icon-circle" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+          </svg>
+        </div>
+        <div>
+          <h2 class="mode-title">Bạn đang ở chế độ Người sửa chữa</h2>
+          <p class="mode-desc">Nhận và xử lý đơn hàng sửa chữa từ cộng đồng.</p>
+        </div>
+      </div>
+
+      <button type="button" class="btn-guide" id="btnOpenGuide">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+          <line x1="12" y1="17" x2="12.01" y2="17"></line>
+        </svg>
+        <span>Xem hướng dẫn</span>
+      </button>
+    </section>
+
+    <!-- ====================================================================
+         VIEW 1: DANH SÁCH ĐƠN HÀNG CẦN SỬA CHỮA (TRANG 1 PDF)
+         ==================================================================== -->
+    <div id="viewOrdersList">
+      
+      <!-- Tiêu đề, Ô tìm kiếm & Nút Bộ lọc -->
+      <section class="orders-section-header">
+        <div class="section-title-box">
+          <h1>Đơn hàng cần sửa chữa</h1>
+          <p>Các yêu cầu sửa chữa mới từ người dùng đang chờ bạn nhận.</p>
+        </div>
+
+        <div class="orders-filter-tools">
+          <div class="search-input-wrapper">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input 
+              type="text" 
+              id="repairSearchInput" 
+              placeholder="Tìm theo tên món đồ, lỗi, khu vực..." 
+              aria-label="Tìm kiếm theo tiêu chí"
+            >
+          </div>
+
+          <button type="button" class="btn-filter" id="btnToggleFilter" aria-expanded="false">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+            </svg>
+            <span>Bộ lọc</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Các Tab lọc danh mục -->
+      <nav class="filter-tabs-bar" aria-label="Bộ lọc nhanh">
+        <button type="button" class="filter-tab active" data-tab="all">Tất cả (12)</button>
+        <button type="button" class="filter-tab" data-tab="new">Mới đăng (8)</button>
+        <button type="button" class="filter-tab" data-tab="priority">
+          <span>Ưu tiên cao (2)</span>
+          <span class="priority-dot" aria-hidden="true"></span>
+        </button>
+        <button type="button" class="filter-tab" data-tab="nearby">Gần bạn</button>
+        <button type="button" class="filter-tab" data-tab="high-budget">Ngân sách cao</button>
+      </nav>
+
+      <!-- Hộp bộ lọc nâng cao -->
+      <div class="filter-drawer" id="filterDrawer" aria-label="Bộ lọc nâng cao">
+        <div class="filter-drawer-grid">
+          <div>
+            <label for="areaFilter" style="font-size:0.8rem; font-weight:600; color:#4b5563; display:block; margin-bottom:4px;">Khu vực:</label>
+            <select id="areaFilter" class="filter-select">
+              <option value="all">Tất cả khu vực (TP. HCM)</option>
+              <option value="Quận 3">Quận 3</option>
+              <option value="Tân Bình">Quận Tân Bình</option>
+              <option value="Thủ Đức">TP. Thủ Đức</option>
+              <option value="Bình Thạnh">Quận Bình Thạnh</option>
+            </select>
+          </div>
+          <div>
+            <label for="priceFilter" style="font-size:0.8rem; font-weight:600; color:#4b5563; display:block; margin-bottom:4px;">Khoảng ngân sách:</label>
+            <select id="priceFilter" class="filter-select">
+              <option value="all">Tất cả ngân sách</option>
+              <option value="under150">Dưới 150.000đ</option>
+              <option value="150to250">150.000đ - 250.000đ</option>
+              <option value="above250">Trên 250.000đ</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Danh sách đơn hàng chờ nhận (Cards) -->
+      <section aria-labelledby="headingPendingOrders">
+        <div class="sub-section-title" id="headingPendingOrders">
+          <span>&#128736;</span>
+          <span>Đơn hàng chờ nhận</span>
+        </div>
+        <p class="sub-section-desc">Chọn đơn phù hợp với kỹ năng và khu vực của bạn.</p>
+        <div class="orders-grid" id="repairOrdersGrid">
+          <!-- Render từ repairer.js -->
+        </div>
+      </section>
+
+      <!-- Danh sách đơn hàng đã nhận (Table) -->
+      <section aria-labelledby="headingClaimedOrders" style="margin-top: 20px;">
+        <div class="claimed-orders-header">
+          <div class="sub-section-title" id="headingClaimedOrders">
+            <span>&#128203;</span>
+            <span>Đơn hàng đã nhận</span>
+          </div>
+          <a href="#" class="see-all-link" onclick="showToast('Đơn hàng đã nhận', 'Bạn đang theo dõi các đơn hàng đang xử lý.', 'info'); return false;">
+            Xem tất cả &gt;
+          </a>
+        </div>
+        <p class="sub-section-desc">Theo dõi và cập nhật tiến độ các đơn bạn đang xử lý.</p>
+
+        <div class="orders-table-wrapper">
+          <table class="orders-table">
+            <thead>
+              <tr>
+                <th>Món đồ</th>
+                <th>Người đăng</th>
+                <th>Khu vực</th>
+                <th>Ngày nhận</th>
+                <th>Trạng thái</th>
+                <th>Ngân sách</th>
+                <th>Thao tác</th>
+              </tr>
+            </thead>
+            <tbody id="claimedOrdersTableBody">
+              <!-- Render từ repairer.js -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ====================================================================
+         VIEW 2: CHI TIẾT ĐƠN HÀNG (TRANG 2 PDF - CHUYỂN ĐỔI LIỀN MẠCH)
+         ==================================================================== -->
+    <div id="viewOrderDetail" style="display: none;">
+      
+      <!-- Đường dẫn quay lại danh sách -->
+      <span class="detail-back-link" id="btnBackToList">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        Đơn hàng cần sửa chữa
+      </span>
+
+      <!-- Tiêu đề và trạng thái -->
+      <div class="detail-header-row">
+        <h1 class="detail-heading">Chi tiết đơn hàng</h1>
+        <div id="detailStatusBadgeContainer">
+          <span class="badge-order-status">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            Đơn hàng chờ nhận
+          </span>
+        </div>
+      </div>
+
+      <!-- Khung thẻ nội dung chi tiết -->
+      <div id="repairDetailContent">
+        <!-- Render từ repairer.js -->
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- MODAL: HƯỚNG DẪN QUY TRÌNH -->
+  <div class="modal-overlay" id="guideModal" role="dialog" aria-modal="true" aria-labelledby="guideModalTitle">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title" id="guideModalTitle">&#128214; Hướng dẫn dành cho Người sửa chữa</h3>
+        <button type="button" class="modal-close-btn modal-close-trigger" aria-label="Đóng">&times;</button>
+      </div>
+      <div class="modal-body">
+        <ol style="padding-left: 20px; display: flex; flex-direction: column; gap: 12px;">
+          <li><strong>1. Chọn đơn phù hợp:</strong> Xem danh sách đơn hàng chờ nhận, đánh giá món đồ, lỗi hỏng và khu vực.</li>
+          <li><strong>2. Tiếp nhận đơn:</strong> Nhấn nút "Nhận đơn sửa" hoặc kiểm tra trang chi tiết trước khi xác nhận.</li>
+          <li><strong>3. Liên hệ & Khảo sát:</strong> Gọi điện hoặc nhắn tin cho khách hàng để hẹn lịch nhận đồ và báo giá cụ thể.</li>
+          <li><strong>4. Bàn giao & Đánh giá:</strong> Hoàn tất sửa chữa, giao lại cho chủ món đồ và tích lũy điểm uy tín trên ReUseHub.</li>
+        </ol>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn-modal-confirm modal-close-trigger">Đã hiểu</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: XÁC NHẬN NHẬN ĐƠN -->
+  <div class="modal-overlay" id="confirmClaimModal" role="dialog" aria-modal="true" aria-labelledby="confirmModalTitle">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title" id="confirmModalTitle">Xác nhận nhận đơn sửa chữa</h3>
+        <button type="button" class="modal-close-btn modal-close-trigger" aria-label="Đóng">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Bạn có chắc chắn muốn nhận sửa chữa đơn hàng này không?</p>
+        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:12px 14px; margin-top:12px;">
+          <div style="font-weight:700; color:#111827; font-size:1.05rem;" id="modalConfirmItemTitle">-</div>
+          <div style="font-size:0.875rem; color:#4b5563; margin-top:4px;" id="modalConfirmItemUser">-</div>
+          <div style="font-size:0.875rem; font-weight:700; color:#164e32; margin-top:4px;">
+            Ngân sách: <span id="modalConfirmItemBudget">-</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn-modal-cancel modal-close-trigger">Hủy bỏ</button>
+        <button type="button" class="btn-modal-confirm" id="btnModalConfirmClaim">Xác nhận nhận đơn</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chỉ sử dụng 1 file JS cho trang người sửa chữa -->
+  <script src="repairer.js"></script>
+</body>
+</html>
+
